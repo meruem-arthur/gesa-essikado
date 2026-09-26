@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { getAllEvents } from '../../lib/queries'
+import { SectionLabel, CoordinateTag } from '../../components/Geo'
 
 function formatDate(ev) {
   return ev.date?.toDate
@@ -8,16 +9,18 @@ function formatDate(ev) {
     : ''
 }
 
-function EventCard({ ev, past }) {
+function EventCard({ ev, idx, past }) {
   return (
-    <div className={`card-gesa p-5 ${past ? 'opacity-70' : ''}`}>
-      {ev.tag && <p className="text-xs text-gold2 mb-2">{ev.tag}</p>}
-      <p className="font-head font-semibold mb-1">{ev.title}</p>
-      <p className="text-xs text-dim mb-2">
-        {formatDate(ev)}
-        {ev.location ? ` · ${ev.location}` : ''}
-      </p>
-      {ev.description && <p className="text-sm text-muted">{ev.description}</p>}
+    <div className={`bg-navy p-7 hover:bg-panel transition-colors ${past ? 'opacity-60' : ''}`}>
+      <div className="flex items-start justify-between mb-6">
+        <span className="mono-label text-[11px] text-dim">EVT / {String(idx + 1).padStart(2, '0')}</span>
+        {ev.tag && <span className="mono-label text-[10px] text-gold">{ev.tag}</span>}
+      </div>
+      <p className="font-head font-bold text-lg text-ink mb-3">{ev.title}</p>
+      <CoordinateTag className="block mb-3 text-muted">
+        {formatDate(ev)}{ev.location ? ` · ${ev.location}` : ''}
+      </CoordinateTag>
+      {ev.description && <p className="text-sm text-muted leading-relaxed">{ev.description}</p>}
     </div>
   )
 }
@@ -46,11 +49,11 @@ export default function EventsPage() {
   const list = tab === 'upcoming' ? upcoming : past
 
   return (
-    <section className="section">
+    <section className="section pt-40 md:pt-48">
       <div className="container-gesa">
-        <p className="text-xs uppercase tracking-wide text-dim mb-2">Calendar</p>
-        <h1 className="font-head font-bold text-3xl mb-6">Events</h1>
-        <p className="text-muted max-w-[60ch] mb-8">
+        <SectionLabel className="mb-6">Calendar</SectionLabel>
+        <h1 className="font-head font-extrabold text-[clamp(2rem,5vw,3.5rem)] tracking-tight text-ink mb-6">Events</h1>
+        <p className="text-muted max-w-[60ch] mb-10 leading-relaxed">
           Everything GESA has planned, and everything we&rsquo;ve already pulled off.
         </p>
 
@@ -59,8 +62,8 @@ export default function EventsPage() {
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors ${
-                tab === t ? 'bg-gold2 text-bg border-gold2' : 'border-border text-muted hover:border-gold2'
+              className={`px-5 py-2.5 text-[11px] mono-label font-semibold border transition-colors ${
+                tab === t ? 'bg-gold text-navy border-gold' : 'border-line2 text-muted hover:border-gold'
               }`}
             >
               {t === 'upcoming' ? `Upcoming${events ? ` (${upcoming.length})` : ''}` : `Past${events ? ` (${past.length})` : ''}`}
@@ -71,13 +74,13 @@ export default function EventsPage() {
         {events === null ? (
           <p className="text-dim text-sm">Loading…</p>
         ) : list.length === 0 ? (
-          <div className="border border-dashed border-border rounded-xl p-10 text-center text-dim text-sm">
+          <div className="border border-dashed border-line p-14 text-center text-dim text-sm">
             {tab === 'upcoming' ? 'No upcoming events at this time' : 'No past events recorded yet'}
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {list.map(ev => (
-              <EventCard key={ev.id} ev={ev} past={tab === 'past'} />
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+            {list.map((ev, idx) => (
+              <EventCard key={ev.id} ev={ev} idx={idx} past={tab === 'past'} />
             ))}
           </div>
         )}

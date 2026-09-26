@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getExecutives } from '../../lib/queries'
+import { SectionLabel } from '../../components/Geo'
 
 export default function ExecutivesPage() {
   const [execs, setExecs] = useState(null)
@@ -11,31 +12,34 @@ export default function ExecutivesPage() {
   }, [])
 
   return (
-    <section className="section">
+    <section className="section pt-40 md:pt-48">
       <div className="container-gesa">
-        <p className="text-xs uppercase tracking-wide text-dim mb-2">Leadership</p>
-        <h1 className="font-head font-bold text-3xl mb-10">Executives</h1>
+        <SectionLabel className="mb-6">Leadership</SectionLabel>
+        <h1 className="font-head font-extrabold text-[clamp(2rem,5vw,3.5rem)] tracking-tight text-ink mb-12">Executives</h1>
 
         {execs === null ? (
           <p className="text-dim text-sm">Loading…</p>
         ) : execs.length === 0 ? (
-          <div className="border border-dashed border-border rounded-xl p-10 text-center text-dim text-sm">
+          <div className="border border-dashed border-line p-14 text-center text-dim text-sm">
             Executives will appear here once added in the admin dashboard
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {execs.map(e => (
-              <div key={e.id} className="card-gesa p-6 text-center">
-                <div className="w-24 h-24 mx-auto rounded-full overflow-hidden bg-card2 mb-4 flex items-center justify-center">
-                  {e.photoUrl ? (
-                    <Image src={e.photoUrl} alt={e.name} width={96} height={96} className="object-cover w-full h-full" />
-                  ) : (
-                    <span className="text-gold2 font-head font-bold text-lg">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
-                  )}
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+            {execs.map((e, idx) => (
+              <div key={e.id} className="bg-navy p-8 hover:bg-panel transition-colors">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="w-20 h-20 rounded-full overflow-hidden bg-panel flex items-center justify-center border border-line">
+                    {e.photoUrl ? (
+                      <Image src={e.photoUrl} alt={e.name} width={80} height={80} className="object-cover w-full h-full" />
+                    ) : (
+                      <span className="text-gold font-head font-bold text-lg">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
+                    )}
+                  </div>
+                  <span className="mono-label text-[10px] text-dim">{String(idx + 1).padStart(2, '0')}</span>
                 </div>
-                <p className="font-head font-semibold">{e.name}</p>
-                <p className="text-gold2 text-xs mb-2">{e.position}</p>
-                {e.bio && <p className="text-muted text-sm">{e.bio}</p>}
+                <p className="font-head font-bold text-ink">{e.name}</p>
+                <p className="text-gold text-[11px] mono-label mt-1 mb-3">{e.position}</p>
+                {e.bio && <p className="text-muted text-sm leading-relaxed">{e.bio}</p>}
               </div>
             ))}
           </div>

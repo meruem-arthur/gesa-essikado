@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { getEvents } from '../lib/queries'
+import { SectionLabel, CoordinateTag } from './Geo'
 
 export default function EventsList() {
   const [events, setEvents] = useState(null)
@@ -14,31 +15,37 @@ export default function EventsList() {
   }, [])
 
   return (
-    <section className="section border-t border-border">
+    <section className="section border-t border-line bg-navy">
       <div className="container-gesa">
-        <div className="flex items-center justify-between mb-8">
-          <p className="text-xs uppercase tracking-wide text-dim">Upcoming Events</p>
-          <Link href="/events" className="text-sm text-gold2 hover:text-gold3">
-            See all events
+        <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
+          <SectionLabel>Upcoming Events</SectionLabel>
+          <Link href="/events" className="link-underline mono-label text-[11px] text-gold">
+            SEE ALL EVENTS →
           </Link>
         </div>
+
         {events === null ? (
           <p className="text-dim text-sm">Loading…</p>
         ) : events.length === 0 ? (
-          <div className="border border-dashed border-border rounded-xl p-10 text-center text-dim text-sm">
+          <div className="border border-dashed border-line p-14 text-center text-dim text-sm">
             No upcoming events at this time
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {events.map(ev => (
-              <div key={ev.id} className="card-gesa p-5">
-                {ev.tag && <p className="text-xs text-gold2 mb-2">{ev.tag}</p>}
-                <p className="font-head font-semibold mb-1">{ev.title}</p>
-                <p className="text-xs text-dim mb-2">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+            {events.map((ev, idx) => (
+              <div key={ev.id} className="bg-navy p-7 hover:bg-panel transition-colors group">
+                <div className="flex items-start justify-between mb-6">
+                  <span className="mono-label text-[11px] text-dim">EVT / {String(idx + 1).padStart(2, '0')}</span>
+                  {ev.tag && <span className="mono-label text-[10px] text-gold">{ev.tag}</span>}
+                </div>
+                <p className="font-head font-bold text-lg text-ink mb-3 group-hover:text-gold transition-colors">
+                  {ev.title}
+                </p>
+                <CoordinateTag className="block mb-3 text-muted">
                   {ev.date?.toDate ? ev.date.toDate().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
                   {ev.location ? ` · ${ev.location}` : ''}
-                </p>
-                {ev.description && <p className="text-sm text-muted">{ev.description}</p>}
+                </CoordinateTag>
+                {ev.description && <p className="text-sm text-muted leading-relaxed">{ev.description}</p>}
               </div>
             ))}
           </div>

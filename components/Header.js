@@ -6,9 +6,9 @@ import { getSiteContent } from '../lib/queries'
 
 const NAV = [
   { href: '/', label: 'Home' },
-  { href: '/events', label: 'Events' },
   { href: '/about', label: 'About' },
   { href: '/executives', label: 'Executives' },
+  { href: '/events', label: 'Events' },
   { href: '/news', label: 'News' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/library', label: 'Library' },
@@ -17,6 +17,7 @@ const NAV = [
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const [sidebarImage, setSidebarImage] = useState(null)
   const panelRef = useRef(null)
 
@@ -24,7 +25,13 @@ export default function Header() {
     getSiteContent().then(c => setSidebarImage(c?.sidebarImageUrl || null)).catch(() => setSidebarImage(null))
   }, [])
 
-  // Close the panel on any click/tap outside it.
+  useEffect(() => {
+    function onScroll() { setScrolled(window.scrollY > 24) }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   useEffect(() => {
     if (!open) return
     function handleOutside(e) {
@@ -39,76 +46,95 @@ export default function Header() {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border">
-      <div className="bg-bg/90 backdrop-blur">
+    <header className="fixed top-0 inset-x-0 z-40">
+      <div
+        className={`transition-all duration-300 border-b ${
+          scrolled
+            ? 'bg-navy/85 backdrop-blur-md border-line'
+            : 'bg-transparent border-transparent'
+        }`}
+      >
         <div className="container-gesa flex items-center justify-between py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="GESA" width={40} height={40} priority />
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image src="/logo.png" alt="GESA" width={36} height={36} priority />
             <span className="hidden sm:flex flex-col leading-none">
-              <span className="font-head font-extrabold text-lg tracking-tight">
-                GE<span className="text-gold2">SA</span>
+              <span className="font-head font-extrabold text-base tracking-tight text-ink">
+                GE<span className="text-gold">SA</span>
               </span>
-              <span className="text-[11px] font-body text-muted">Essikado Campus</span>
+              <span className="mono-label text-[9px] text-muted tracking-widest2">Essikado Campus</span>
             </span>
           </Link>
-          <nav className="hidden md:flex gap-7 text-sm text-muted">
+
+          <nav className="hidden lg:flex gap-8 text-[13px]">
             {NAV.map(n => (
-              <Link key={n.href} href={n.href} className="hover:text-gold2 transition-colors">
+              <Link
+                key={n.href}
+                href={n.href}
+                className="link-underline text-muted hover:text-ink transition-colors font-medium tracking-wide"
+              >
                 {n.label}
               </Link>
             ))}
           </nav>
+
           <button
             type="button"
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            className="md:hidden text-gold2 text-xl leading-none"
+            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink"
           >
-            ≡
+            <span className="block w-6 h-px bg-current" />
+            <span className="block w-6 h-px bg-current" />
           </button>
         </div>
       </div>
 
       {/* Mobile overlay sidebar */}
       {open && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="absolute inset-0 bg-black/60" />
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
           <aside
             ref={panelRef}
-            className="absolute right-0 top-0 h-full w-72 max-w-[85vw] overflow-hidden"
+            className="absolute right-0 top-0 h-full w-80 max-w-[88vw] overflow-hidden bg-navy2 border-l border-line"
           >
-            {/* Background image blended under a dark tint, same trick as the hero */}
             <div className="absolute inset-0">
               {sidebarImage ? (
-                <Image src={sidebarImage} alt="" fill className="object-cover" />
+                <Image src={sidebarImage} alt="" fill className="object-cover opacity-25" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-b from-surface via-bg to-card" />
+                <div className="w-full h-full bg-survey-grid opacity-40" />
               )}
-              <div className="absolute inset-0 bg-bg/85" />
+              <div className="absolute inset-0 bg-navy2/90" />
             </div>
 
-            <div className="relative flex flex-col h-full p-6">
-              <button
-                type="button"
-                aria-label="Close menu"
-                onClick={() => setOpen(false)}
-                className="self-end mb-6 w-9 h-9 rounded-full border border-border2 text-text flex items-center justify-center hover:border-gold2"
-              >
-                ✕
-              </button>
-              <Image src="/logo.png" alt="GESA" width={64} height={64} className="rounded-xl mb-6" />
-              <nav className="flex flex-col gap-1">
-                {NAV.map(n => (
+            <div className="relative flex flex-col h-full p-7">
+              <div className="flex items-center justify-between mb-10">
+                <Image src="/logo.png" alt="GESA" width={44} height={44} />
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setOpen(false)}
+                  className="w-9 h-9 rounded-full border border-line2 text-ink flex items-center justify-center hover:border-gold"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="mono-label text-[10px] text-dim mb-4">Navigate</p>
+              <nav className="flex flex-col">
+                {NAV.map((n, i) => (
                   <Link
                     key={n.href}
                     href={n.href}
                     onClick={() => setOpen(false)}
-                    className="px-2 py-3 text-base text-muted hover:text-gold2 border-b border-border/60"
+                    className="py-3 text-lg font-head font-semibold text-ink hover:text-gold border-b border-line/70 flex items-center justify-between"
                   >
                     {n.label}
+                    <span className="mono-label text-[10px] text-dim">{String(i + 1).padStart(2, '0')}</span>
                   </Link>
                 ))}
               </nav>
+              <div className="mt-auto pt-6 mono-label text-[10px] text-dim">
+                GESA · UMaT · ESSIKADO
+              </div>
             </div>
           </aside>
         </div>
