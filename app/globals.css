@@ -91,8 +91,8 @@ h1, h2, h3, h4, .font-head {
   align-items: center;
   gap: 10px;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.28em;
+  font-size: 12px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: #a9a6ae;
 }
@@ -195,6 +195,45 @@ h1, h2, h3, h4, .font-head {
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #05070c; }
 ::-webkit-scrollbar-thumb { background: #1a2030; border: 2px solid #05070c; border-radius: 6px; }
+
+/* ── Image-over-text reliability helpers ──────────────────────────── */
+
+/* Bias crops toward faces for portrait/group photos instead of dead-centre. */
+.object-portrait {
+  object-position: 50% 18%;
+}
+
+/* Guaranteed-readable dark scrim for any text sitting on a photo,
+   independent of the theme's opacity-modifier support. */
+.scrim-full {
+  background: rgba(5, 7, 12, 0.86);
+}
+
+/* Extra top-weighted scrim so the fixed header stays legible over
+   bright imagery even before the solid nav background kicks in on scroll. */
+.scrim-top {
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 7, 12, 0.82) 0%,
+    rgba(5, 7, 12, 0.45) 40%,
+    rgba(5, 7, 12, 0) 100%
+  );
+}
+
+.scrim-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(5, 7, 12, 0.92) 0%,
+    rgba(5, 7, 12, 0.55) 45%,
+    rgba(5, 7, 12, 0.15) 100%
+  );
+}
+
+/* Soft shadow so headline/label text never disappears into a busy photo,
+   even where the scrim underneath is thin. */
+.text-shadow-safe {
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.7);
+}
 
 /* Reveal-on-scroll (JS toggles .is-visible) */
 .reveal {

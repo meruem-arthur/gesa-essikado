@@ -16,18 +16,19 @@ export default function ContactPage() {
       <section className="relative overflow-hidden pt-40 pb-16 md:pt-48 md:pb-20">
         <div className="absolute inset-0">
           {content?.contactHeroImageUrl ? (
-            <Image src={content.contactHeroImageUrl} alt="" fill priority className="object-cover" />
+            <Image src={content.contactHeroImageUrl} alt="" fill priority className="object-cover object-portrait" />
           ) : (
             <ContourField className="w-full h-full text-purpleSoft" />
           )}
-          <div className="absolute inset-0 bg-navy/78" />
+          <div className="absolute inset-0 scrim-full" />
+          <div className="absolute inset-0 scrim-bottom" />
         </div>
         <div className="container-gesa relative">
-          <SectionLabel className="mb-6">Wanna Chat?</SectionLabel>
-          <h1 className="font-head font-extrabold text-[clamp(2rem,6vw,3.8rem)] leading-[1.02] tracking-tight text-ink mb-5">
+          <SectionLabel className="mb-6 text-shadow-safe">Wanna Chat?</SectionLabel>
+          <h1 className="font-head font-extrabold text-[clamp(1.9rem,4.4vw,3.2rem)] leading-[1.1] tracking-tight text-ink mb-5 text-shadow-safe">
             Contact GE<span className="text-gold">SA</span>
           </h1>
-          <p className="text-muted max-w-xl leading-relaxed">
+          <p className="text-ink/85 max-w-xl leading-relaxed text-shadow-safe">
             Reach the executive team for anything related to the association — dues, events, or general enquiries.
           </p>
         </div>

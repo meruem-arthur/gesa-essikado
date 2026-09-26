@@ -30,7 +30,7 @@ export default function ExecutivesPage() {
                 <div className="flex items-start justify-between mb-6">
                   <div className="w-20 h-20 rounded-full overflow-hidden bg-panel flex items-center justify-center border border-line">
                     {e.photoUrl ? (
-                      <Image src={e.photoUrl} alt={e.name} width={80} height={80} className="object-cover w-full h-full" />
+                      <Image src={e.photoUrl} alt={e.name} width={80} height={80} className="object-cover object-portrait w-full h-full" />
                     ) : (
                       <span className="text-gold font-head font-bold text-lg">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
                     )}

@@ -47,10 +47,17 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-40">
+      {/* Permanent top scrim — keeps nav legible over any hero image, scroll or not */}
+      <div
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-300 scrim-top ${
+          scrolled ? 'opacity-0' : 'opacity-100'
+        }`}
+        aria-hidden="true"
+      />
       <div
         className={`transition-all duration-300 border-b ${
           scrolled
-            ? 'bg-navy/85 backdrop-blur-md border-line'
+            ? 'bg-navy/92 backdrop-blur-md border-line'
             : 'bg-transparent border-transparent'
         }`}
       >
@@ -58,19 +65,19 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-3 group">
             <Image src="/logo.png" alt="GESA" width={36} height={36} priority />
             <span className="hidden sm:flex flex-col leading-none">
-              <span className="font-head font-extrabold text-base tracking-tight text-ink">
+              <span className="font-head font-extrabold text-base tracking-tight text-ink text-shadow-safe">
                 GE<span className="text-gold">SA</span>
               </span>
-              <span className="mono-label text-[9px] text-muted tracking-widest2">Essikado Campus</span>
+              <span className="mono-label text-[10px] text-muted tracking-widest2 text-shadow-safe">Essikado Campus</span>
             </span>
           </Link>
 
-          <nav className="hidden lg:flex gap-8 text-[13px]">
+          <nav className="hidden lg:flex gap-8 text-[13.5px]">
             {NAV.map(n => (
               <Link
                 key={n.href}
                 href={n.href}
-                className="link-underline text-muted hover:text-ink transition-colors font-medium tracking-wide"
+                className="link-underline text-ink/90 hover:text-gold transition-colors font-semibold tracking-wide text-shadow-safe"
               >
                 {n.label}
               </Link>
@@ -81,7 +88,7 @@ export default function Header() {
             type="button"
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink"
+            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink text-shadow-safe"
           >
             <span className="block w-6 h-px bg-current" />
             <span className="block w-6 h-px bg-current" />

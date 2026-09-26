@@ -20,18 +20,19 @@ export default function AboutPage() {
       <section className="relative overflow-hidden pt-40 pb-20 md:pt-48 md:pb-28">
         <div className="absolute inset-0">
           {content?.aboutHeroImageUrl ? (
-            <Image src={content.aboutHeroImageUrl} alt="" fill priority className="object-cover" />
+            <Image src={content.aboutHeroImageUrl} alt="" fill priority className="object-cover object-portrait" />
           ) : (
             <div className="w-full h-full bg-survey-grid" />
           )}
-          <div className="absolute inset-0 bg-navy/78" />
+          <div className="absolute inset-0 scrim-full" />
+          <div className="absolute inset-0 scrim-bottom" />
         </div>
         <div className="container-gesa relative">
-          <SectionLabel className="mb-6">Our Story</SectionLabel>
-          <h1 className="font-head font-extrabold text-[clamp(2rem,6vw,4.2rem)] leading-[1.02] tracking-tight text-ink max-w-3xl mb-6">
+          <SectionLabel className="mb-6 text-shadow-safe">Our Story</SectionLabel>
+          <h1 className="font-head font-extrabold text-[clamp(1.9rem,4.6vw,3.4rem)] leading-[1.12] tracking-tight text-ink max-w-3xl mb-6 text-shadow-safe">
             Geomatic Engineering &amp; Land Administration Students&rsquo; Association
           </h1>
-          <p className="text-muted max-w-xl leading-relaxed">
+          <p className="text-ink/85 max-w-xl leading-relaxed text-shadow-safe">
             Empowering future geospatial leaders through innovation, unity, and excellence — GE<span className="text-gold">SA</span>-UMaT.
           </p>
         </div>
@@ -41,10 +42,11 @@ export default function AboutPage() {
       <section className="section border-t border-line">
         <div className="container-gesa">
           {content?.aboutSecondImageUrl && (
-            <div className="relative w-full h-72 md:h-[26rem] overflow-hidden mb-14">
-              <Image src={content.aboutSecondImageUrl} alt="GESA members" fill className="object-cover object-top" />
+            <div className="relative w-full h-80 md:h-[30rem] overflow-hidden mb-14">
+              <Image src={content.aboutSecondImageUrl} alt="GESA members" fill className="object-cover object-portrait" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4">
-                <CoordinateTag>UMaT · ESSIKADO CAMPUS</CoordinateTag>
+                <CoordinateTag className="text-shadow-safe">UMaT · ESSIKADO CAMPUS</CoordinateTag>
               </div>
             </div>
           )}
@@ -84,7 +86,7 @@ export default function AboutPage() {
                 <div key={e.id} className="bg-navy p-6 text-center hover:bg-panel transition-colors">
                   <div className="w-20 h-20 mx-auto rounded-full overflow-hidden bg-panel mb-4 flex items-center justify-center border border-line">
                     {e.photoUrl ? (
-                      <Image src={e.photoUrl} alt={e.name} width={80} height={80} className="object-cover w-full h-full" />
+                      <Image src={e.photoUrl} alt={e.name} width={80} height={80} className="object-cover object-portrait w-full h-full" />
                     ) : (
                       <span className="text-gold font-head font-bold text-lg">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
                     )}
@@ -103,15 +105,15 @@ export default function AboutPage() {
         <div className="relative overflow-hidden border border-line">
           <div className="absolute inset-0">
             {content?.aboutHeroImageUrl ? (
-              <Image src={content.aboutHeroImageUrl} alt="" fill className="object-cover" />
+              <Image src={content.aboutHeroImageUrl} alt="" fill className="object-cover object-portrait" />
             ) : (
               <ContourField className="w-full h-full text-purpleSoft" />
             )}
-            <div className="absolute inset-0 bg-navy2/85" />
+            <div className="absolute inset-0 scrim-full" />
           </div>
           <div className="relative py-20 px-8 text-center">
-            <h2 className="font-head font-bold text-2xl md:text-3xl text-ink mb-3">Wanna chat?</h2>
-            <p className="text-muted max-w-md mx-auto mb-8 leading-relaxed">
+            <h2 className="font-head font-bold text-2xl md:text-3xl text-ink mb-3 text-shadow-safe">Wanna chat?</h2>
+            <p className="text-ink/80 max-w-md mx-auto mb-8 leading-relaxed text-shadow-safe">
               Got something to say? We&rsquo;re all ears — questions, suggestions, or just a hello.
             </p>
             <Link href="/contact" className="btn-gold">Reach Out Now →</Link>

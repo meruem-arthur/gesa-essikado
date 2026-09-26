@@ -44,7 +44,7 @@ function Person({ person, fallbackRole, message, placeholder, tag }) {
       <div className="flex items-start justify-between mb-8">
         <div className="w-20 h-20 rounded-full overflow-hidden bg-panel flex-none flex items-center justify-center border border-line">
           {person?.photoUrl ? (
-            <Image src={person.photoUrl} alt={person.name} width={80} height={80} className="object-cover w-full h-full" />
+            <Image src={person.photoUrl} alt={person.name} width={80} height={80} className="object-cover object-portrait w-full h-full" />
           ) : (
             <span className="text-gold font-head font-bold">{(person?.name || 'GE').slice(0, 2).toUpperCase()}</span>
           )}
