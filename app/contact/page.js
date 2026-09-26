@@ -20,17 +20,18 @@ export default function ContactPage() {
           ) : (
             <ContourField className="w-full h-full text-purpleSoft" />
           )}
-          <div className="absolute inset-0 scrim-full" />
-          <div className="absolute inset-0 scrim-bottom" />
+          <div className="absolute inset-0 scrim-top" />
         </div>
         <div className="container-gesa relative">
-          <SectionLabel className="mb-6 text-shadow-safe">Wanna Chat?</SectionLabel>
-          <h1 className="font-head font-extrabold text-[clamp(1.9rem,4.4vw,3.2rem)] leading-[1.1] tracking-tight text-ink mb-5 text-shadow-safe">
-            Contact GE<span className="text-gold">SA</span>
-          </h1>
-          <p className="text-ink/85 max-w-xl leading-relaxed text-shadow-safe">
-            Reach the executive team for anything related to the association — dues, events, or general enquiries.
-          </p>
+          <div className="hero-panel inline-block px-6 py-7 md:px-9 md:py-9 max-w-xl">
+            <SectionLabel className="mb-6">Wanna Chat?</SectionLabel>
+            <h1 className="font-head font-extrabold text-[clamp(1.7rem,4vw,2.9rem)] leading-[1.12] tracking-tight text-ink mb-4">
+              Contact GE<span className="text-gold">SA</span>
+            </h1>
+            <p className="text-ink/90 leading-relaxed">
+              Reach the executive team for anything related to the association — dues, events, or general enquiries.
+            </p>
+          </div>
         </div>
       </section>
 

@@ -52,12 +52,12 @@ export default function HeroSlideshow() {
       {/* Geospatial overlay chrome */}
       <div className="hidden md:block absolute inset-0 pointer-events-none">
         <div className="absolute top-28 left-8">
-          <CoordinateTag className="block text-shadow-safe">06°05&rsquo;12&Prime;N</CoordinateTag>
-          <CoordinateTag className="block mt-1 text-shadow-safe">001°38&rsquo;42&Prime;W</CoordinateTag>
+          <CoordinateTag className="block text-glow">06°05&rsquo;12&Prime;N</CoordinateTag>
+          <CoordinateTag className="block mt-1 text-glow">001°38&rsquo;42&Prime;W</CoordinateTag>
         </div>
         <div className="absolute top-28 right-8 text-right">
-          <CoordinateTag className="block text-shadow-safe">ELEVATION 128.4M</CoordinateTag>
-          <CoordinateTag className="block mt-1 text-muted text-shadow-safe">ESSIKADO / GHANA</CoordinateTag>
+          <CoordinateTag className="block text-glow">ELEVATION 128.4M</CoordinateTag>
+          <CoordinateTag className="block mt-1 text-muted text-glow">ESSIKADO / GHANA</CoordinateTag>
         </div>
 
         {/* Animated survey marker drifting across the frame */}
@@ -71,23 +71,23 @@ export default function HeroSlideshow() {
 
       <div className="relative h-full flex flex-col justify-end">
         <div className="container-gesa pb-16 md:pb-20">
-          <p className="mono-label text-[12px] text-goldLight mb-5 flex items-center gap-3 text-shadow-safe">
-            <ScaleBar />
-            GEOMATIC ENGINEERING STUDENTS&rsquo; ASSOCIATION
-          </p>
-          <h1 className="font-head font-extrabold text-[clamp(2.1rem,6vw,4.75rem)] leading-[1.02] tracking-tight text-ink mb-6 text-shadow-safe">
-            THE EYE OF THE<br />
-            <span className="text-gold">ENGINEER.</span>
-          </h1>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            <p className="text-ink/85 max-w-md leading-relaxed text-shadow-safe">
+          <div className="hero-panel inline-block px-6 py-7 md:px-9 md:py-9 max-w-2xl">
+            <p className="mono-label text-[12px] text-goldLight mb-5 flex items-center gap-3">
+              <ScaleBar />
+              GEOMATIC ENGINEERING STUDENTS&rsquo; ASSOCIATION
+            </p>
+            <h1 className="font-head font-extrabold text-[clamp(2.1rem,6vw,4.75rem)] leading-[1.02] tracking-tight text-ink mb-6">
+              THE EYE OF THE<br />
+              <span className="text-gold">ENGINEER.</span>
+            </h1>
+            <p className="text-ink/90 max-w-md leading-relaxed">
               {content?.tagline ? `\u201c${content.tagline}\u201d ` : ''}The home of Geomatic Engineering
               students at UMaT&rsquo;s {content?.campus || 'Essikado'} campus.
             </p>
-            <div className="flex gap-4 flex-wrap">
-              <a href="/about" className="btn-gold">Explore GESA ↗</a>
-              <a href="/events" className="btn-outline">View Events →</a>
-            </div>
+          </div>
+          <div className="flex gap-4 flex-wrap mt-7">
+            <a href="/about" className="btn-gold">Explore GESA ↗</a>
+            <a href="/events" className="btn-outline">View Events →</a>
           </div>
         </div>
 

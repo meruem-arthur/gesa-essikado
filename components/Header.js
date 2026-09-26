@@ -65,10 +65,10 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-3 group">
             <Image src="/logo.png" alt="GESA" width={36} height={36} priority />
             <span className="hidden sm:flex flex-col leading-none">
-              <span className="font-head font-extrabold text-base tracking-tight text-ink text-shadow-safe">
+              <span className="font-head font-extrabold text-base tracking-tight text-ink text-glow">
                 GE<span className="text-gold">SA</span>
               </span>
-              <span className="mono-label text-[10px] text-muted tracking-widest2 text-shadow-safe">Essikado Campus</span>
+              <span className="mono-label text-[10px] text-muted tracking-widest2 text-glow">Essikado Campus</span>
             </span>
           </Link>
 
@@ -77,7 +77,7 @@ export default function Header() {
               <Link
                 key={n.href}
                 href={n.href}
-                className="link-underline text-ink/90 hover:text-gold transition-colors font-semibold tracking-wide text-shadow-safe"
+                className="link-underline text-ink/90 hover:text-gold transition-colors font-semibold tracking-wide text-glow"
               >
                 {n.label}
               </Link>
@@ -88,7 +88,7 @@ export default function Header() {
             type="button"
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink text-shadow-safe"
+            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink text-glow"
           >
             <span className="block w-6 h-px bg-current" />
             <span className="block w-6 h-px bg-current" />
