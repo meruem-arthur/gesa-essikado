@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getHOD, getExecutives } from '../lib/queries'
-import { SectionLabel, CoordinateTag } from './Geo'
 
 export default function WelcomeMessages() {
   const [hod, setHod] = useState(null)
@@ -14,22 +13,20 @@ export default function WelcomeMessages() {
   }, [])
 
   return (
-    <section className="section border-t border-line bg-navy2">
+    <section className="section-tight border-t border-line">
       <div className="container-gesa">
-        <SectionLabel className="mb-10">From the Leadership</SectionLabel>
+        <p className="benchmark mb-10">BM&#8288;-03 &middot; LEADERSHIP</p>
         <div className="grid md:grid-cols-2 gap-px bg-line">
           <Person
             person={hod}
-            fallbackRole="Head, Geomatic Engineering Department"
+            tag="HOD &middot; GEOMATIC ENGINEERING DEPT."
             message="hodMessage"
-            tag="HOD / 01"
             placeholder="Welcome message from the Head of Department will appear here once added in the admin dashboard."
           />
           <Person
             person={president}
-            fallbackRole="President, GESA — Essikado"
+            tag="PRESIDENT &middot; GESA ESSIKADO"
             message="bio"
-            tag="PRESIDENT / 02"
             placeholder="Welcome message from the President will appear here once added in the admin dashboard."
           />
         </div>
@@ -38,21 +35,18 @@ export default function WelcomeMessages() {
   )
 }
 
-function Person({ person, fallbackRole, message, placeholder, tag }) {
+function Person({ person, tag, message, placeholder }) {
   return (
-    <div className="bg-navy2 p-8 md:p-10">
-      <div className="flex items-start justify-between mb-8">
-        <div className="w-20 h-20 rounded-full overflow-hidden bg-panel flex-none flex items-center justify-center border border-line">
-          {person?.photoUrl ? (
-            <Image src={person.photoUrl} alt={person.name} width={80} height={80} className="object-cover w-full h-full" />
-          ) : (
-            <span className="text-gold font-head font-bold">{(person?.name || 'GE').slice(0, 2).toUpperCase()}</span>
-          )}
-        </div>
-        <CoordinateTag>{tag}</CoordinateTag>
+    <div className="bg-bg p-8 md:p-10">
+      <div className="w-16 h-16 rounded-full overflow-hidden bg-surface2 mb-6 flex items-center justify-center flex-none">
+        {person?.photoUrl ? (
+          <Image src={person.photoUrl} alt={person.name} width={64} height={64} className="object-cover w-full h-full" />
+        ) : (
+          <span className="text-gold2 font-display font-semibold">{(person?.name || 'GE').slice(0, 2).toUpperCase()}</span>
+        )}
       </div>
-      <p className="font-head font-bold text-xl text-ink">{person?.name || 'Name pending'}</p>
-      <p className="text-gold text-xs mono-label mt-1 mb-5">{person?.position || person?.title || fallbackRole}</p>
+      <p className="font-display text-xl text-ink mb-1">{person?.name || 'Name pending'}</p>
+      <p className="coord mb-6">{person?.position || person?.title || tag}</p>
       <p className="text-sm text-muted leading-relaxed max-w-[52ch]">
         {person?.[message] || placeholder}
       </p>

@@ -1,7 +1,6 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getMaterials, getPastQuestions } from '../../lib/queries'
-import { SectionLabel } from '../../components/Geo'
 
 const LEVELS = ['100', '200', '300', '400']
 
@@ -9,6 +8,7 @@ export default function LibraryPage() {
   const [materials, setMaterials] = useState(null)
   const [pastQ, setPastQ] = useState(null)
   const [tab, setTab] = useState('materials')
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     getMaterials().then(setMaterials).catch(() => setMaterials([]))
@@ -17,60 +17,77 @@ export default function LibraryPage() {
 
   const data = tab === 'materials' ? materials : pastQ
 
+  const filtered = useMemo(() => {
+    if (!data) return null
+    const q = query.trim().toLowerCase()
+    if (!q) return data
+    return data.filter(d =>
+      `${d.courseCode || ''} ${d.courseName || ''} ${d.fileName || ''}`.toLowerCase().includes(q)
+    )
+  }, [data, query])
+
   return (
-    <section className="section pt-40 md:pt-48">
+    <section className="section pt-28">
       <div className="container-gesa">
-        <SectionLabel className="mb-6">Resources</SectionLabel>
-        <h1 className="font-head font-extrabold text-[clamp(2rem,5vw,3.5rem)] tracking-tight text-ink mb-6">GESA Library</h1>
-        <p className="text-muted max-w-[60ch] mb-10 leading-relaxed">
-          Lecture notes and past questions for Geomatic Engineering, organised by level.
+        <p className="benchmark mb-6">BM&#8288;-09 &middot; ARCHIVE</p>
+        <h1 className="font-display font-semibold text-4xl md:text-5xl text-ink mb-4">Library</h1>
+        <p className="text-muted max-w-[56ch] mb-10">
+          Lecture notes and past questions for Geomatic Engineering, indexed by level and semester.
         </p>
 
-        <div className="flex gap-3 mb-12">
+        <div className="flex flex-wrap items-center gap-8 mb-4 border-b border-line pb-0">
           {['materials', 'pastq'].map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-5 py-2.5 text-[11px] mono-label font-semibold border transition-colors ${
-                tab === t ? 'bg-gold text-navy border-gold' : 'border-line2 text-muted hover:border-gold'
+              className={`pb-4 -mb-px font-mono-label text-[13px] tracking-wide border-b-2 transition-colors ${
+                tab === t ? 'text-gold2 border-gold2' : 'text-muted border-transparent hover:text-ink'
               }`}
             >
-              {t === 'materials' ? 'Learning Materials' : 'Past Questions'}
+              {t === 'materials' ? 'LEARNING MATERIALS' : 'PAST QUESTIONS'}
             </button>
           ))}
         </div>
 
-        {data === null ? (
-          <p className="text-dim text-sm">Loading…</p>
+        <div className="flex items-center gap-3 py-6 border-b border-line mb-10">
+          <span className="coord">SEARCH</span>
+          <input
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Course code or name&hellip;"
+            className="bg-transparent border-b border-line focus:border-gold2 outline-none py-1 text-sm text-ink flex-1 max-w-xs placeholder:text-dim"
+          />
+        </div>
+
+        {filtered === null ? (
+          <p className="coord">LOADING&hellip;</p>
         ) : (
-          <div className="space-y-14">
+          <div className="space-y-12">
             {LEVELS.map(lvl => {
-              const items = data.filter(d => String(d.level) === lvl)
+              const items = filtered.filter(d => String(d.level) === lvl)
+              if (items.length === 0 && query) return null
               return (
                 <div key={lvl}>
-                  <div className="flex items-baseline gap-3 mb-5 border-b border-line pb-4">
-                    <h2 className="font-head font-semibold text-lg text-ink">Level {lvl}</h2>
-                    <span className="mono-label text-[10px] text-dim">{String(items.length).padStart(2, '0')} FILES</span>
-                  </div>
+                  <p className="coord mb-4">LEVEL {lvl}</p>
                   {items.length === 0 ? (
                     <p className="text-dim text-sm">Nothing uploaded for this level yet</p>
                   ) : (
-                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+                    <div className="border-t border-line">
                       {items.map(m => (
                         <a
                           key={m.id}
                           href={m.fileUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-navy p-5 flex items-center justify-between hover:bg-panel transition-colors"
+                          className="flex items-center justify-between gap-4 py-4 border-b border-line hover:bg-surface/40 transition-colors px-2 -mx-2"
                         >
-                          <div>
-                            <p className="font-semibold text-sm text-goldLight">{m.courseCode}</p>
-                            <p className="mono-label text-[10px] text-dim mt-1">
-                              {m.courseName || m.fileName} · SEM {m.semester}{m.year ? ` · ${m.year}` : ''}
+                          <div className="min-w-0">
+                            <p className="font-mono-label text-sm text-gold2">{m.courseCode}</p>
+                            <p className="text-sm text-muted truncate">
+                              {m.courseName || m.fileName} &middot; SEM {m.semester}{m.year ? ` \u00b7 ${m.year}` : ''}
                             </p>
                           </div>
-                          <span className="text-dim">↗</span>
+                          <span className="text-dim flex-none">&nearr;</span>
                         </a>
                       ))}
                     </div>
