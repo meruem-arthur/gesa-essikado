@@ -27,7 +27,7 @@ export default function HeroSlideshow() {
   }, [])
 
   return (
-    <section className="relative h-[100svh] min-h-[560px] overflow-hidden bg-navy">
+    <section className="relative h-[82vh] min-h-[520px] max-h-[760px] overflow-hidden bg-navy">
       <div className="absolute inset-0">
         {slides.length > 0 ? (
           slides.map((s, idx) => (
@@ -37,7 +37,7 @@ export default function HeroSlideshow() {
               alt={s.caption || 'GESA fieldwork'}
               fill
               priority={idx === 0}
-              className="object-cover object-portrait transition-opacity duration-[1400ms]"
+              className="object-cover object-portrait-soft transition-opacity duration-[1400ms]"
               style={{ opacity: idx === i ? 1 : 0 }}
             />
           ))
@@ -71,12 +71,12 @@ export default function HeroSlideshow() {
 
       <div className="relative h-full flex flex-col justify-end">
         <div className="container-gesa pb-16 md:pb-20">
-          <div className="hero-panel inline-block px-6 py-7 md:px-9 md:py-9 max-w-2xl">
+          <div className="hero-panel inline-block px-6 py-7 md:px-9 md:py-9 max-w-2xl md:max-w-3xl">
             <p className="mono-label text-[12px] text-goldLight mb-5 flex items-center gap-3">
               <ScaleBar />
               GEOMATIC ENGINEERING STUDENTS&rsquo; ASSOCIATION
             </p>
-            <h1 className="font-head font-extrabold text-[clamp(2.1rem,6vw,4.75rem)] leading-[1.02] tracking-tight text-ink mb-6">
+            <h1 className="font-head font-extrabold text-[clamp(1.85rem,4.8vw,3.6rem)] leading-[1.05] tracking-tight text-ink mb-6">
               THE EYE OF THE<br />
               <span className="text-gold">ENGINEER.</span>
             </h1>

@@ -203,6 +203,12 @@ h1, h2, h3, h4, .font-head {
   object-position: 50% 18%;
 }
 
+/* Gentler top bias — used for the main hero/banner photos so tall mobile
+   screens don't crop as aggressively into the image. */
+.object-portrait-soft {
+  object-position: 50% 28%;
+}
+
 /* Light, mostly-clear tint — used only where a scrim is still needed
    (e.g. behind small chrome), never over the full hero photo anymore. */
 .scrim-full {

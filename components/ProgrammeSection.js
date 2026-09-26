@@ -31,7 +31,19 @@ export default function ProgrammeSection() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-12 gap-0 border-t border-l border-line">
+        {/* Mobile / tablet — always-visible 2-column grid, no hover required */}
+        <div className="grid grid-cols-2 gap-px bg-line border border-line md:hidden">
+          {DISCIPLINES.map(d => (
+            <div key={d.code} className="bg-navy p-4">
+              <span className="mono-label text-[10px] text-gold block mb-2">{d.code}</span>
+              <p className="font-head font-semibold text-sm text-ink mb-1.5">{d.name}</p>
+              <p className="text-[13px] text-muted leading-relaxed">{d.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop — interactive master/detail, hover reveals the corresponding panel */}
+        <div className="hidden md:grid md:grid-cols-12 gap-0 border-t border-l border-line">
           <div className="md:col-span-5">
             {DISCIPLINES.map((d, idx) => (
               <button

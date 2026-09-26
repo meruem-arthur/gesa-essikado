@@ -62,7 +62,7 @@ export default function AboutPage() {
       <section className="relative overflow-hidden pt-40 pb-20 md:pt-48 md:pb-28">
         <div className="absolute inset-0">
           {content?.aboutHeroImageUrl ? (
-            <Image src={content.aboutHeroImageUrl} alt="" fill priority className="object-cover object-portrait" />
+            <Image src={content.aboutHeroImageUrl} alt="" fill priority className="object-cover object-portrait-soft" />
           ) : (
             <div className="w-full h-full bg-survey-grid" />
           )}
@@ -87,14 +87,14 @@ export default function AboutPage() {
           {content?.aboutSecondImageUrl && (
             <div className="md:col-span-5">
               <div className="relative w-full aspect-[4/5] max-w-sm overflow-hidden">
-                <Image src={content.aboutSecondImageUrl} alt="GESA members" fill className="object-cover object-portrait" />
+                <Image src={content.aboutSecondImageUrl} alt="GESA members" fill className="object-cover object-portrait-soft" />
               </div>
               <CoordinateTag className="block mt-3">UMaT · ESSIKADO CAMPUS</CoordinateTag>
             </div>
           )}
           <div className={content?.aboutSecondImageUrl ? 'md:col-span-7' : 'md:col-span-12'}>
             <SectionLabel className="mb-5">Who Are We?</SectionLabel>
-            <p className="text-muted leading-relaxed whitespace-pre-line max-w-[64ch] text-[15px]">
+            <p className="text-muted leading-relaxed whitespace-pre-line max-w-[64ch] text-[16px] md:text-[17px]">
               {content?.aboutText ||
                 `GESA-UMaT is the official student association for Geomatic Engineering and Land Administration students at UMaT. Established under the Constitution of the University, we serve as a platform for advocacy, collaboration, and development among members.`}
             </p>
@@ -107,22 +107,22 @@ export default function AboutPage() {
         <div className="container-gesa grid sm:grid-cols-3 gap-10">
           <div>
             <div className="text-gold mb-4"><EyeIcon /></div>
-            <h3 className="font-head font-bold text-lg text-ink mb-2">Vision</h3>
-            <p className="text-sm text-muted leading-relaxed">
+            <h3 className="font-head font-bold text-xl text-ink mb-3">Vision</h3>
+            <p className="text-[15px] text-muted leading-relaxed">
               {content?.vision || 'To be a leading student association promoting excellence, unity, and innovation in Geomatic Engineering and Land Administration.'}
             </p>
           </div>
           <div>
             <div className="text-gold mb-4"><PinIcon /></div>
-            <h3 className="font-head font-bold text-lg text-ink mb-2">Mission</h3>
-            <p className="text-sm text-muted leading-relaxed">
+            <h3 className="font-head font-bold text-xl text-ink mb-3">Mission</h3>
+            <p className="text-[15px] text-muted leading-relaxed">
               {content?.mission || 'To empower students through academic support, professional growth, and collaborative initiatives that advance geospatial innovation.'}
             </p>
           </div>
           <div>
             <div className="text-gold mb-4"><QuoteIcon /></div>
-            <h3 className="font-head font-bold text-lg text-ink mb-2">Slogan</h3>
-            <p className="text-sm text-muted leading-relaxed">{content?.tagline || 'The Eye of the Engineer'}</p>
+            <h3 className="font-head font-bold text-xl text-ink mb-3">Slogan</h3>
+            <p className="text-[15px] text-muted leading-relaxed">{content?.tagline || 'The Eye of the Engineer'}</p>
           </div>
         </div>
       </section>
@@ -132,9 +132,9 @@ export default function AboutPage() {
         <div className="container-gesa grid md:grid-cols-2 gap-12">
           <div>
             <SectionLabel className="mb-6">Core Values</SectionLabel>
-            <ol className="space-y-3">
+            <ol className="space-y-4">
               {coreValues.map((v, idx) => (
-                <li key={idx} className="text-sm text-muted leading-relaxed">
+                <li key={idx} className="text-[15px] text-muted leading-relaxed">
                   <span className="text-ink font-semibold">{idx + 1}. {v.label}</span>
                   {v.desc ? <> — {v.desc}</> : null}
                 </li>
@@ -143,9 +143,9 @@ export default function AboutPage() {
           </div>
           <div>
             <SectionLabel className="mb-6">Our Activities</SectionLabel>
-            <ol className="space-y-3">
+            <ol className="space-y-4">
               {activities.map((v, idx) => (
-                <li key={idx} className="text-sm text-muted leading-relaxed">
+                <li key={idx} className="text-[15px] text-muted leading-relaxed">
                   <span className="text-ink font-semibold">{idx + 1}. {v.label}:</span>
                   {v.desc ? <> {v.desc}</> : null}
                 </li>
@@ -176,7 +176,7 @@ export default function AboutPage() {
                   <div key={e.id}>
                     <div className="relative w-full aspect-[4/5] bg-panel overflow-hidden mb-4 border border-line">
                       {e.photoUrl ? (
-                        <Image src={e.photoUrl} alt={e.name} fill className="object-cover object-portrait" />
+                        <Image src={e.photoUrl} alt={e.name} fill className="object-cover object-center" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <span className="text-gold font-head font-bold text-2xl">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
@@ -199,7 +199,7 @@ export default function AboutPage() {
         <div className="relative overflow-hidden border border-line h-72 md:h-80 flex items-end">
           <div className="absolute inset-0">
             {content?.aboutHeroImageUrl ? (
-              <Image src={content.aboutHeroImageUrl} alt="" fill className="object-cover object-portrait" />
+              <Image src={content.aboutHeroImageUrl} alt="" fill className="object-cover object-portrait-soft" />
             ) : (
               <div className="w-full h-full bg-survey-grid" />
             )}

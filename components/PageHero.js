@@ -6,7 +6,7 @@ export default function PageHero({ imageUrl, eyebrow, title, subtitle }) {
     <section className="relative overflow-hidden pt-40 pb-16 md:pt-48 md:pb-20">
       <div className="absolute inset-0">
         {imageUrl ? (
-          <Image src={imageUrl} alt="" fill priority className="object-cover object-portrait" />
+          <Image src={imageUrl} alt="" fill priority className="object-cover object-portrait-soft" />
         ) : (
           <div className="w-full h-full bg-survey-grid" />
         )}

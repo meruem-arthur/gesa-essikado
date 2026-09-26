@@ -63,9 +63,9 @@ export default function Header() {
       >
         <div className="container-gesa flex items-center justify-between py-4">
           <Link href="/" className="flex items-center gap-3 group">
-            <Image src="/logo.png" alt="GESA" width={36} height={36} priority />
+            <Image src="/logo.png" alt="GESA" width={46} height={46} priority className="rounded-sm" />
             <span className="hidden sm:flex flex-col leading-none">
-              <span className="font-head font-extrabold text-base tracking-tight text-ink text-glow">
+              <span className="font-head font-extrabold text-lg tracking-tight text-ink text-glow">
                 GE<span className="text-gold">SA</span>
               </span>
               <span className="mono-label text-[10px] text-muted tracking-widest2 text-glow">Essikado Campus</span>
@@ -115,7 +115,7 @@ export default function Header() {
 
             <div className="relative flex flex-col h-full p-7">
               <div className="flex items-center justify-between mb-10">
-                <Image src="/logo.png" alt="GESA" width={44} height={44} />
+                <Image src="/logo.png" alt="GESA" width={52} height={52} className="rounded-sm" />
                 <button
                   type="button"
                   aria-label="Close menu"

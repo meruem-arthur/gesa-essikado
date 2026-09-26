@@ -16,7 +16,7 @@ export default function ContactPage() {
       <section className="relative overflow-hidden pt-40 pb-16 md:pt-48 md:pb-20">
         <div className="absolute inset-0">
           {content?.contactHeroImageUrl ? (
-            <Image src={content.contactHeroImageUrl} alt="" fill priority className="object-cover object-portrait" />
+            <Image src={content.contactHeroImageUrl} alt="" fill priority className="object-cover object-portrait-soft" />
           ) : (
             <ContourField className="w-full h-full text-purpleSoft" />
           )}
