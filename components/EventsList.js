@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { getEvents } from '../lib/queries'
 
 export default function EventsList() {
@@ -8,14 +9,19 @@ export default function EventsList() {
   useEffect(() => {
     getEvents().then(list => {
       const now = new Date()
-      setEvents(list.filter(e => e.date?.toDate ? e.date.toDate() >= now : true))
+      setEvents(list.filter(e => e.date?.toDate ? e.date.toDate() >= now : true).slice(0, 3))
     }).catch(() => setEvents([]))
   }, [])
 
   return (
     <section className="section border-t border-border">
       <div className="container-gesa">
-        <p className="text-xs uppercase tracking-wide text-dim mb-8">Upcoming Events</p>
+        <div className="flex items-center justify-between mb-8">
+          <p className="text-xs uppercase tracking-wide text-dim">Upcoming Events</p>
+          <Link href="/events" className="text-sm text-gold2 hover:text-gold3">
+            See all events
+          </Link>
+        </div>
         {events === null ? (
           <p className="text-dim text-sm">Loading…</p>
         ) : events.length === 0 ? (

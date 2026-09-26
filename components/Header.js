@@ -6,6 +6,7 @@ import { getSiteContent } from '../lib/queries'
 
 const NAV = [
   { href: '/', label: 'Home' },
+  { href: '/events', label: 'Events' },
   { href: '/about', label: 'About' },
   { href: '/executives', label: 'Executives' },
   { href: '/news', label: 'News' },

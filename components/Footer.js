@@ -65,6 +65,12 @@ export default function Footer() {
             </li>
 
             <li>
+              <Link href="/events" className="hover:text-gold2">
+                Events
+              </Link>
+            </li>
+
+            <li>
               <Link href="/executives" className="hover:text-gold2">
                 Executives
               </Link>
