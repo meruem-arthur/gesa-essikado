@@ -40,8 +40,8 @@ export default function AboutPage() {
       <section className="section">
         <div className="container-gesa">
           {content?.aboutSecondImageUrl && (
-            <div className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-10">
-              <Image src={content.aboutSecondImageUrl} alt="GESA members" fill className="object-cover" />
+            <div className="relative w-full h-72 md:h-96 rounded-2xl overflow-hidden mb-10">
+              <Image src={content.aboutSecondImageUrl} alt="GESA members" fill className="object-cover object-top" />
             </div>
           )}
           <div className="max-w-3xl">

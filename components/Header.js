@@ -38,32 +38,34 @@ export default function Header() {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-40 bg-bg/90 backdrop-blur border-b border-border">
-      <div className="container-gesa flex items-center justify-between py-4">
-        <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo.png" alt="GESA" width={40} height={40} priority />
-          <span className="hidden sm:flex flex-col leading-none">
-            <span className="font-head font-extrabold text-lg tracking-tight">
-              GE<span className="text-gold2">SA</span>
+    <header className="sticky top-0 z-40 border-b border-border">
+      <div className="bg-bg/90 backdrop-blur">
+        <div className="container-gesa flex items-center justify-between py-4">
+          <Link href="/" className="flex items-center gap-3">
+            <Image src="/logo.png" alt="GESA" width={40} height={40} priority />
+            <span className="hidden sm:flex flex-col leading-none">
+              <span className="font-head font-extrabold text-lg tracking-tight">
+                GE<span className="text-gold2">SA</span>
+              </span>
+              <span className="text-[11px] font-body text-muted">Essikado Campus</span>
             </span>
-            <span className="text-[11px] font-body text-muted">Essikado Campus</span>
-          </span>
-        </Link>
-        <nav className="hidden md:flex gap-7 text-sm text-muted">
-          {NAV.map(n => (
-            <Link key={n.href} href={n.href} className="hover:text-gold2 transition-colors">
-              {n.label}
-            </Link>
-          ))}
-        </nav>
-        <button
-          type="button"
-          aria-label="Open menu"
-          onClick={() => setOpen(true)}
-          className="md:hidden text-gold2 text-xl leading-none"
-        >
-          ≡
-        </button>
+          </Link>
+          <nav className="hidden md:flex gap-7 text-sm text-muted">
+            {NAV.map(n => (
+              <Link key={n.href} href={n.href} className="hover:text-gold2 transition-colors">
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+          <button
+            type="button"
+            aria-label="Open menu"
+            onClick={() => setOpen(true)}
+            className="md:hidden text-gold2 text-xl leading-none"
+          >
+            ≡
+          </button>
+        </div>
       </div>
 
       {/* Mobile overlay sidebar */}
