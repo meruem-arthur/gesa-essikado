@@ -1,24 +1,23 @@
-import ContourLines from './geo/ContourLines'
-import Reveal from './Reveal'
+import { ContourField, CoordinateTag } from './Geo'
 
 export default function Statement() {
   return (
-    <section className="relative section overflow-hidden border-t border-line">
-      <ContourLines className="opacity-60" />
-      <div className="relative container-gesa">
-        <Reveal>
-          <p className="benchmark mb-8">BM&#8288;-01 &middot; FIELD NOTE</p>
-          <h2 className="font-display font-semibold text-clamp-statement leading-[1.02] tracking-tight text-ink max-w-4xl">
-            We don&rsquo;t just map the world.
-            <br />
-            <span className="text-muted">We understand it.</span>
-          </h2>
-          <p className="mt-8 max-w-md text-muted leading-relaxed">
-            Every survey point, every coordinate, every layer of data is a way of asking the
-            same question &mdash; where are we, and what does it mean. That&rsquo;s the discipline
-            GESA represents at Essikado.
-          </p>
-        </Reveal>
+    <section className="relative border-t border-line bg-navy overflow-hidden py-28 md:py-36">
+      <ContourField className="absolute inset-0 w-full h-full text-purpleSoft opacity-70" />
+      <div className="container-gesa relative">
+        <div className="grid md:grid-cols-12 gap-8 items-end">
+          <div className="md:col-span-9">
+            <h2 className="font-head font-extrabold text-[clamp(1.7rem,4.4vw,3.2rem)] leading-[1.08] tracking-tight text-ink">
+              WE DON&rsquo;T JUST MAP<br />
+              THE WORLD. WE <span className="text-gold">UNDERSTAND</span> IT.
+            </h2>
+          </div>
+          <div className="md:col-span-3 flex md:justify-end">
+            <CoordinateTag className="block text-right leading-relaxed">
+              GESA / 2026<br />UMaT · ESSIKADO<br />GEOMATIC ENGINEERING
+            </CoordinateTag>
+          </div>
+        </div>
       </div>
     </section>
   )

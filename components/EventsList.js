@@ -2,60 +2,50 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { getEvents } from '../lib/queries'
-import SurveyPoint from './geo/SurveyPoint'
-
-function DateBlock({ date }) {
-  const d = date?.toDate ? date.toDate() : null
-  if (!d) return <div className="coord w-16">TBA</div>
-  return (
-    <div className="w-16 flex-none text-center">
-      <p className="font-display text-2xl leading-none text-ink">{d.getDate()}</p>
-      <p className="coord mt-1">{d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase()}</p>
-    </div>
-  )
-}
+import { SectionLabel, CoordinateTag } from './Geo'
 
 export default function EventsList() {
   const [events, setEvents] = useState(null)
 
   useEffect(() => {
-    getEvents(20).then(list => {
+    getEvents().then(list => {
       const now = new Date()
       setEvents(list.filter(e => e.date?.toDate ? e.date.toDate() >= now : true).slice(0, 3))
     }).catch(() => setEvents([]))
   }, [])
 
   return (
-    <section className="section-tight border-t border-line">
+    <section className="section border-t border-line bg-navy">
       <div className="container-gesa">
-        <div className="flex items-end justify-between mb-10 gap-6 flex-wrap">
-          <p className="benchmark">BM&#8288;-04 &middot; EVENTS</p>
-          <Link href="/events" className="link-underline font-mono-label text-[13px] text-muted hover:text-ink pb-1">
-            VIEW EVENTS &rarr;
+        <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
+          <SectionLabel>Upcoming Events</SectionLabel>
+          <Link href="/events" className="link-underline mono-label text-[11px] text-gold">
+            SEE ALL EVENTS →
           </Link>
         </div>
 
         {events === null ? (
-          <p className="coord">LOADING&hellip;</p>
+          <p className="text-dim text-sm">Loading…</p>
         ) : events.length === 0 ? (
-          <div className="border border-dashed border-line rounded-md p-10 text-center coord">
-            NO UPCOMING EVENTS AT THIS TIME
+          <div className="border border-dashed border-line p-14 text-center text-dim text-sm">
+            No upcoming events at this time
           </div>
         ) : (
-          <div className="border-t border-line">
-            {events.map(ev => (
-              <div key={ev.id} className="flex items-start gap-6 py-6 border-b border-line">
-                <DateBlock date={ev.date} />
-                <div className="flex-1 min-w-0">
-                  {ev.tag && <p className="coord mb-1">{ev.tag.toUpperCase()}</p>}
-                  <p className="font-display text-lg text-ink mb-1">{ev.title}</p>
-                  {ev.location && (
-                    <p className="flex items-center gap-1.5 text-sm text-muted">
-                      <SurveyPoint className="w-3 h-3 text-gold" />
-                      {ev.location}
-                    </p>
-                  )}
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+            {events.map((ev, idx) => (
+              <div key={ev.id} className="bg-navy p-7 hover:bg-panel transition-colors group">
+                <div className="flex items-start justify-between mb-6">
+                  <span className="mono-label text-[11px] text-dim">EVT / {String(idx + 1).padStart(2, '0')}</span>
+                  {ev.tag && <span className="mono-label text-[10px] text-gold">{ev.tag}</span>}
                 </div>
+                <p className="font-head font-bold text-lg text-ink mb-3 group-hover:text-gold transition-colors">
+                  {ev.title}
+                </p>
+                <CoordinateTag className="block mb-3 text-muted">
+                  {ev.date?.toDate ? ev.date.toDate().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
+                  {ev.location ? ` · ${ev.location}` : ''}
+                </CoordinateTag>
+                {ev.description && <p className="text-sm text-muted leading-relaxed">{ev.description}</p>}
               </div>
             ))}
           </div>

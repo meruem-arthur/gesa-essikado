@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { getSiteContent } from '../lib/queries'
 
@@ -21,7 +20,6 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [sidebarImage, setSidebarImage] = useState(null)
   const panelRef = useRef(null)
-  const pathname = usePathname()
 
   useEffect(() => {
     getSiteContent().then(c => setSidebarImage(c?.sidebarImageUrl || null)).catch(() => setSidebarImage(null))
@@ -47,78 +45,77 @@ export default function Header() {
     }
   }, [open])
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [open])
-
   return (
     <header className="fixed top-0 inset-x-0 z-40">
+      {/* Permanent top scrim — keeps nav legible over any hero image, scroll or not */}
       <div
-        className={`transition-colors duration-500 ${
-          scrolled ? 'bg-bg/85 backdrop-blur border-b border-line' : 'bg-transparent border-b border-transparent'
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-300 scrim-top ${
+          scrolled ? 'opacity-0' : 'opacity-100'
+        }`}
+        aria-hidden="true"
+      />
+      <div
+        className={`transition-all duration-300 border-b ${
+          scrolled
+            ? 'bg-navy/92 backdrop-blur-md border-line'
+            : 'bg-transparent border-transparent'
         }`}
       >
-        <div className="container-gesa flex items-center justify-between py-5">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="GESA" width={34} height={34} priority />
+        <div className="container-gesa flex items-center justify-between py-4">
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image src="/logo.png" alt="GESA" width={36} height={36} priority />
             <span className="hidden sm:flex flex-col leading-none">
-              <span className="font-display font-semibold text-[15px] tracking-tight text-ink">
-                GESA
+              <span className="font-head font-extrabold text-base tracking-tight text-ink text-glow">
+                GE<span className="text-gold">SA</span>
               </span>
-              <span className="coord !text-[10px] !text-dim">Essikado Campus</span>
+              <span className="mono-label text-[10px] text-muted tracking-widest2 text-glow">Essikado Campus</span>
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-[13px] font-mono-label tracking-wide">
-            {NAV.map(n => {
-              const active = pathname === n.href
-              return (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  aria-current={active ? 'page' : undefined}
-                  className={`link-underline pb-1 transition-colors ${
-                    active ? 'text-gold2' : 'text-muted hover:text-ink'
-                  }`}
-                >
-                  {n.label.toUpperCase()}
-                </Link>
-              )
-            })}
+          <nav className="hidden lg:flex gap-8 text-[13.5px]">
+            {NAV.map(n => (
+              <Link
+                key={n.href}
+                href={n.href}
+                className="link-underline text-ink/90 hover:text-gold transition-colors font-semibold tracking-wide text-glow"
+              >
+                {n.label}
+              </Link>
+            ))}
           </nav>
 
           <button
             type="button"
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            className="md:hidden text-ink flex flex-col gap-[5px] w-7"
+            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink text-glow"
           >
-            <span className="h-px w-full bg-current" />
-            <span className="h-px w-4 bg-current self-end" />
+            <span className="block w-6 h-px bg-current" />
+            <span className="block w-6 h-px bg-current" />
           </button>
         </div>
       </div>
 
+      {/* Mobile overlay sidebar */}
       {open && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
           <aside
             ref={panelRef}
-            className="absolute right-0 top-0 h-full w-80 max-w-[88vw] overflow-hidden bg-surface"
+            className="absolute right-0 top-0 h-full w-80 max-w-[88vw] overflow-hidden bg-navy2 border-l border-line"
           >
             <div className="absolute inset-0">
               {sidebarImage ? (
-                <Image src={sidebarImage} alt="" fill className="object-cover" />
+                <Image src={sidebarImage} alt="" fill className="object-cover opacity-25" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-b from-purpledeep via-surface to-bg" />
+                <div className="w-full h-full bg-survey-grid opacity-40" />
               )}
-              <div className="absolute inset-0 bg-bg/90" />
+              <div className="absolute inset-0 bg-navy2/90" />
             </div>
 
             <div className="relative flex flex-col h-full p-7">
               <div className="flex items-center justify-between mb-10">
-                <span className="coord">UMaT · ESSIKADO</span>
+                <Image src="/logo.png" alt="GESA" width={44} height={44} />
                 <button
                   type="button"
                   aria-label="Close menu"
@@ -128,28 +125,23 @@ export default function Header() {
                   ✕
                 </button>
               </div>
-
+              <p className="mono-label text-[10px] text-dim mb-4">Navigate</p>
               <nav className="flex flex-col">
-                {NAV.map((n, i) => {
-                  const active = pathname === n.href
-                  return (
-                    <Link
-                      key={n.href}
-                      href={n.href}
-                      onClick={() => setOpen(false)}
-                      aria-current={active ? 'page' : undefined}
-                      className={`flex items-baseline gap-4 py-3 border-b border-line font-display text-2xl ${
-                        active ? 'text-gold2' : 'text-ink hover:text-gold2'
-                      }`}
-                    >
-                      <span className="coord !text-dim">{String(i + 1).padStart(2, '0')}</span>
-                      {n.label}
-                    </Link>
-                  )
-                })}
+                {NAV.map((n, i) => (
+                  <Link
+                    key={n.href}
+                    href={n.href}
+                    onClick={() => setOpen(false)}
+                    className="py-3 text-lg font-head font-semibold text-ink hover:text-gold border-b border-line/70 flex items-center justify-between"
+                  >
+                    {n.label}
+                    <span className="mono-label text-[10px] text-dim">{String(i + 1).padStart(2, '0')}</span>
+                  </Link>
+                ))}
               </nav>
-
-              <div className="mt-auto coord">06°05&rsquo;12&Prime;N · 001°38&rsquo;42&Prime;W</div>
+              <div className="mt-auto pt-6 mono-label text-[10px] text-dim">
+                GESA · UMaT · ESSIKADO
+              </div>
             </div>
           </aside>
         </div>

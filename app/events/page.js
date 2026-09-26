@@ -1,44 +1,39 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { getAllEvents } from '../../lib/queries'
-import SurveyPoint from '../../components/geo/SurveyPoint'
+import { getAllEvents, getSiteContent } from '../../lib/queries'
+import { CoordinateTag } from '../../components/Geo'
+import PageHero from '../../components/PageHero'
 
-function DateBlock({ date }) {
-  const d = date?.toDate ? date.toDate() : null
-  if (!d) return <div className="coord w-16">TBA</div>
-  return (
-    <div className="w-16 flex-none text-center">
-      <p className="font-display text-2xl leading-none text-ink">{d.getDate()}</p>
-      <p className="coord mt-1">{d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }).toUpperCase()}</p>
-    </div>
-  )
+function formatDate(ev) {
+  return ev.date?.toDate
+    ? ev.date.toDate().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+    : ''
 }
 
-function EventRow({ ev, past }) {
+function EventCard({ ev, idx, past }) {
   return (
-    <div className={`flex items-start gap-6 py-6 border-b border-line ${past ? 'opacity-60' : ''}`}>
-      <DateBlock date={ev.date} />
-      <div className="flex-1 min-w-0">
-        {ev.tag && <p className="coord mb-1">{ev.tag.toUpperCase()}</p>}
-        <p className="font-display text-lg md:text-xl text-ink mb-1">{ev.title}</p>
-        {ev.location && (
-          <p className="flex items-center gap-1.5 text-sm text-muted mb-2">
-            <SurveyPoint className="w-3 h-3 text-gold" />
-            {ev.location}
-          </p>
-        )}
-        {ev.description && <p className="text-sm text-muted max-w-[60ch]">{ev.description}</p>}
+    <div className={`bg-navy p-7 hover:bg-panel transition-colors ${past ? 'opacity-60' : ''}`}>
+      <div className="flex items-start justify-between mb-6">
+        <span className="mono-label text-[11px] text-dim">EVT / {String(idx + 1).padStart(2, '0')}</span>
+        {ev.tag && <span className="mono-label text-[10px] text-gold">{ev.tag}</span>}
       </div>
+      <p className="font-head font-bold text-lg text-ink mb-3">{ev.title}</p>
+      <CoordinateTag className="block mb-3 text-muted">
+        {formatDate(ev)}{ev.location ? ` · ${ev.location}` : ''}
+      </CoordinateTag>
+      {ev.description && <p className="text-sm text-muted leading-relaxed">{ev.description}</p>}
     </div>
   )
 }
 
 export default function EventsPage() {
   const [events, setEvents] = useState(null)
+  const [content, setContent] = useState(null)
   const [tab, setTab] = useState('upcoming')
 
   useEffect(() => {
     getAllEvents().then(setEvents).catch(() => setEvents([]))
+    getSiteContent().then(setContent).catch(() => setContent(null))
   }, [])
 
   let upcoming = []
@@ -57,42 +52,44 @@ export default function EventsPage() {
   const list = tab === 'upcoming' ? upcoming : past
 
   return (
-    <section className="section pt-28">
-      <div className="container-gesa">
-        <p className="benchmark mb-6">BM&#8288;-04 &middot; CALENDAR</p>
-        <h1 className="font-display font-semibold text-4xl md:text-5xl text-ink mb-4">Events</h1>
-        <p className="text-muted max-w-[56ch] mb-10">
-          Everything GESA has planned, and everything we&rsquo;ve already pulled off.
-        </p>
-
-        <div className="flex items-center gap-8 mb-4 border-b border-line">
+    <>
+      <PageHero
+        imageUrl={content?.eventsHeroImageUrl}
+        eyebrow="Calendar"
+        title="Events"
+        subtitle="Everything GESA has planned, and everything we've already pulled off."
+      />
+      <section className="section pt-16">
+        <div className="container-gesa">
+        <div className="flex gap-3 mb-10">
           {['upcoming', 'past'].map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`pb-4 -mb-px font-mono-label text-[13px] tracking-wide border-b-2 transition-colors ${
-                tab === t ? 'text-gold2 border-gold2' : 'text-muted border-transparent hover:text-ink'
+              className={`px-5 py-2.5 text-[11px] mono-label font-semibold border transition-colors ${
+                tab === t ? 'bg-gold text-navy border-gold' : 'border-line2 text-muted hover:border-gold'
               }`}
             >
-              {t === 'upcoming' ? `UPCOMING${events ? ` (${upcoming.length})` : ''}` : `PAST${events ? ` (${past.length})` : ''}`}
+              {t === 'upcoming' ? `Upcoming${events ? ` (${upcoming.length})` : ''}` : `Past${events ? ` (${past.length})` : ''}`}
             </button>
           ))}
         </div>
 
         {events === null ? (
-          <p className="coord mt-8">LOADING&hellip;</p>
+          <p className="text-dim text-sm">Loading…</p>
         ) : list.length === 0 ? (
-          <div className="border border-dashed border-line rounded-md p-10 text-center coord mt-8">
-            {tab === 'upcoming' ? 'NO UPCOMING EVENTS AT THIS TIME' : 'NO PAST EVENTS RECORDED YET'}
+          <div className="border border-dashed border-line p-14 text-center text-dim text-sm">
+            {tab === 'upcoming' ? 'No upcoming events at this time' : 'No past events recorded yet'}
           </div>
         ) : (
-          <div>
-            {list.map(ev => (
-              <EventRow key={ev.id} ev={ev} past={tab === 'past'} />
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+            {list.map((ev, idx) => (
+              <EventCard key={ev.id} ev={ev} idx={idx} past={tab === 'past'} />
             ))}
           </div>
         )}
       </div>
-    </section>
+      </section>
+    </>
   )
 }

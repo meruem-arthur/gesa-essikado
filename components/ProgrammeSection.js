@@ -1,43 +1,72 @@
-const FOCUS_AREAS = [
-  { code: 'GM-01', title: 'Surveying', desc: 'Land, engineering and cadastral surveys — the foundation of every geospatial dataset.' },
-  { code: 'GM-02', title: 'Geographic Information Systems', desc: 'Capturing, storing and analysing spatial data to model the real world digitally.' },
-  { code: 'GM-03', title: 'Remote Sensing', desc: 'Reading the earth from satellites and sensors — land use, change detection, environment.' },
-  { code: 'GM-04', title: 'Cartography', desc: 'Turning raw coordinates into maps people can actually read and act on.' },
-  { code: 'GM-05', title: 'Photogrammetry', desc: 'Measuring the world from photographs and drone imagery — precision without contact.' },
-  { code: 'GM-06', title: 'GNSS & Positioning', desc: 'Satellite-based positioning — the backbone of every modern survey.' },
-  { code: 'GM-07', title: 'Land Administration', desc: 'Boundaries, titles and tenure — where engineering meets law and policy.' },
-  { code: 'GM-08', title: 'Geospatial Data', desc: 'Databases, pipelines and analysis behind every spatial decision made today.' },
+'use client'
+import { useState } from 'react'
+import { SectionLabel, Reveal } from './Geo'
+
+const DISCIPLINES = [
+  { code: '01', name: 'Surveying', desc: 'Precision field measurement — total stations, levelling and control networks.' },
+  { code: '02', name: 'GIS', desc: 'Geographic Information Systems — capturing, storing and analysing spatial data.' },
+  { code: '03', name: 'Remote Sensing', desc: 'Reading the earth from satellites and aircraft to monitor change over time.' },
+  { code: '04', name: 'Cartography', desc: 'The science and craft of representing spatial information as maps.' },
+  { code: '05', name: 'Photogrammetry', desc: 'Extracting reliable measurements and 3D models from imagery.' },
+  { code: '06', name: 'GNSS · Positioning', desc: 'Satellite-based positioning underpinning every modern survey.' },
+  { code: '07', name: 'Land Administration', desc: 'Cadastral systems, land tenure, and property boundary management.' },
+  { code: '08', name: 'Geospatial Data', desc: 'Managing and modelling the data that describes our physical world.' },
 ]
 
 export default function ProgrammeSection() {
+  const [active, setActive] = useState(0)
+
   return (
-    <section className="section-tight border-t border-line">
+    <section className="section border-t border-line bg-navy">
       <div className="container-gesa">
-        <div className="flex items-end justify-between mb-10 gap-6 flex-wrap">
+        <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
           <div>
-            <p className="benchmark mb-3">BM&#8288;-02 &middot; ACADEMICS</p>
-            <h2 className="font-display font-semibold text-3xl md:text-4xl text-ink">What we study</h2>
+            <SectionLabel className="mb-4">What We Study</SectionLabel>
+            <h2 className="font-head font-bold text-3xl md:text-4xl text-ink max-w-xl">
+              One discipline. <span className="text-gold">Eight lenses</span> on the same world.
+            </h2>
           </div>
-          <p className="coord max-w-[32ch]">
-            BSc GEOMATIC ENGINEERING &middot; ESSIKADO CAMPUS &middot; UMaT
-          </p>
+          <div className="mono-label text-[11px] text-muted text-right">
+            BSc · GEOMATIC ENGINEERING<br />FACULTY OF GEOSCIENCES &amp; ENV. STUDIES · UMaT
+          </div>
         </div>
 
-        <div className="border-t border-line">
-          {FOCUS_AREAS.map(a => (
-            <details key={a.code} className="group border-b border-line">
-              <summary className="flex items-center gap-6 py-5 cursor-pointer list-none">
-                <span className="coord w-14 flex-none">{a.code}</span>
-                <span className="font-display text-lg md:text-xl text-ink group-open:text-gold2 transition-colors flex-1">
-                  {a.title}
+        <div className="grid md:grid-cols-12 gap-0 border-t border-l border-line">
+          <div className="md:col-span-5">
+            {DISCIPLINES.map((d, idx) => (
+              <button
+                key={d.code}
+                onMouseEnter={() => setActive(idx)}
+                onFocus={() => setActive(idx)}
+                onClick={() => setActive(idx)}
+                className={`w-full text-left px-6 py-5 border-r border-b border-line flex items-center gap-5 transition-colors ${
+                  active === idx ? 'bg-panel' : 'hover:bg-panel/50'
+                }`}
+              >
+                <span className={`mono-label text-[11px] ${active === idx ? 'text-gold' : 'text-dim'}`}>{d.code}</span>
+                <span className={`font-head font-semibold text-lg ${active === idx ? 'text-ink' : 'text-muted'}`}>
+                  {d.name}
                 </span>
-                <span className="coord transition-transform group-open:rotate-45 text-lg leading-none">+</span>
-              </summary>
-              <p className="pl-[80px] pb-6 -mt-1 text-muted max-w-[62ch] text-sm leading-relaxed">
-                {a.desc}
-              </p>
-            </details>
-          ))}
+              </button>
+            ))}
+          </div>
+
+          <div className="md:col-span-7 border-r border-b border-line bg-panel relative overflow-hidden">
+            <div className="absolute inset-0 bg-survey-grid-fine opacity-60" />
+            <div className="relative p-8 md:p-12 h-full flex flex-col justify-between min-h-[280px]">
+              <div>
+                <p className="mono-label text-[11px] text-gold mb-4">{DISCIPLINES[active].code} / 08</p>
+                <h3 className="font-head font-bold text-2xl md:text-3xl text-ink mb-4">{DISCIPLINES[active].name}</h3>
+                <p className="text-muted max-w-[46ch] leading-relaxed">{DISCIPLINES[active].desc}</p>
+              </div>
+              <svg viewBox="0 0 300 100" className="w-full max-w-xs mt-8 text-purpleSoft/60" aria-hidden="true">
+                <line x1="0" y1="50" x2="300" y2="50" stroke="currentColor" strokeWidth="1" strokeDasharray="2 6" />
+                {[20, 100, 180, 260].map((x, k) => (
+                  <circle key={x} cx={x} cy="50" r={k === active % 4 ? 5 : 3} fill={k === active % 4 ? '#c69a2e' : 'currentColor'} />
+                ))}
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </section>
