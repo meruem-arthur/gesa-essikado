@@ -9,7 +9,7 @@ export function SectionLabel({ children, className = '' }) {
 /* Coordinate / metadata chip — e.g. 06°05'12"N — used around images & heroes. */
 export function CoordinateTag({ children, className = '' }) {
   return (
-    <span className={`mono-label text-[12px] text-goldLight ${className}`}>
+    <span className={`mono-label text-[11px] text-goldLight/90 ${className}`}>
       {children}
     </span>
   )

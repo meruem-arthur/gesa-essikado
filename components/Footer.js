@@ -39,7 +39,7 @@ export default function Footer() {
       <div className="relative container-gesa pt-20 pb-10">
         <div className="mb-16">
           <SectionLabel className="mb-6">GESA · UMaT · Essikado</SectionLabel>
-          <h2 className="font-head font-extrabold text-[clamp(1.7rem,4.6vw,3.2rem)] leading-[1.05] tracking-tight text-ink max-w-4xl">
+          <h2 className="font-head font-extrabold text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] tracking-tight text-ink max-w-4xl">
             THE WORLD<br />THROUGH OUR <span className="text-gold">LENS.</span>
           </h2>
         </div>

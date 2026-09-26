@@ -91,8 +91,8 @@ h1, h2, h3, h4, .font-head {
   align-items: center;
   gap: 10px;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.24em;
+  font-size: 11px;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: #a9a6ae;
 }
@@ -195,65 +195,6 @@ h1, h2, h3, h4, .font-head {
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #05070c; }
 ::-webkit-scrollbar-thumb { background: #1a2030; border: 2px solid #05070c; border-radius: 6px; }
-
-/* ── Image-over-text reliability helpers ──────────────────────────── */
-
-/* Bias crops toward faces for portrait/group photos instead of dead-centre. */
-.object-portrait {
-  object-position: 50% 18%;
-}
-
-/* Light, mostly-clear tint — used only where a scrim is still needed
-   (e.g. behind small chrome), never over the full hero photo anymore. */
-.scrim-full {
-  background: rgba(5, 7, 12, 0.38);
-}
-
-/* Gentle top-weighted scrim so the fixed header stays legible over
-   bright imagery even before the solid nav background kicks in on scroll.
-   Kept light on purpose — the photo underneath should still read clearly. */
-.scrim-top {
-  background: linear-gradient(
-    to bottom,
-    rgba(5, 7, 12, 0.55) 0%,
-    rgba(5, 7, 12, 0.22) 45%,
-    rgba(5, 7, 12, 0) 100%
-  );
-}
-
-.scrim-bottom {
-  background: linear-gradient(
-    to top,
-    rgba(5, 7, 12, 0.55) 0%,
-    rgba(5, 7, 12, 0.2) 50%,
-    rgba(5, 7, 12, 0) 100%
-  );
-}
-
-/* Soft shadow so headline/label text never disappears into a busy photo,
-   even where the scrim underneath is thin. */
-.text-shadow-safe {
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-/* Stronger "dark glow" for headline text that sits directly on a clear,
-   undimmed photo — carries legibility on its own without flattening the image. */
-.text-glow {
-  text-shadow:
-    0 0 26px rgba(0, 0, 0, 0.85),
-    0 0 10px rgba(0, 0, 0, 0.75),
-    0 3px 14px rgba(0, 0, 0, 0.7);
-}
-
-/* Translucent panel that sits behind hero copy so the photo itself can stay
-   clear and undimmed everywhere else — the "boxed" hero treatment. */
-.hero-panel {
-  background: rgba(5, 7, 12, 0.5);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(244, 241, 234, 0.12);
-  border-radius: 6px;
-}
 
 /* Reveal-on-scroll (JS toggles .is-visible) */
 .reveal {

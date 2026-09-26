@@ -1,34 +1,31 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { getMaterials, getPastQuestions, getSiteContent } from '../../lib/queries'
-import PageHero from '../../components/PageHero'
+import { getMaterials, getPastQuestions } from '../../lib/queries'
+import { SectionLabel } from '../../components/Geo'
 
 const LEVELS = ['100', '200', '300', '400']
 
 export default function LibraryPage() {
   const [materials, setMaterials] = useState(null)
   const [pastQ, setPastQ] = useState(null)
-  const [content, setContent] = useState(null)
   const [tab, setTab] = useState('materials')
 
   useEffect(() => {
     getMaterials().then(setMaterials).catch(() => setMaterials([]))
     getPastQuestions().then(setPastQ).catch(() => setPastQ([]))
-    getSiteContent().then(setContent).catch(() => setContent(null))
   }, [])
 
   const data = tab === 'materials' ? materials : pastQ
 
   return (
-    <>
-      <PageHero
-        imageUrl={content?.libraryHeroImageUrl}
-        eyebrow="Resources"
-        title="GESA Library"
-        subtitle="Lecture notes and past questions for Geomatic Engineering, organised by level."
-      />
-      <section className="section pt-16">
-        <div className="container-gesa">
+    <section className="section pt-40 md:pt-48">
+      <div className="container-gesa">
+        <SectionLabel className="mb-6">Resources</SectionLabel>
+        <h1 className="font-head font-extrabold text-[clamp(2rem,5vw,3.5rem)] tracking-tight text-ink mb-6">GESA Library</h1>
+        <p className="text-muted max-w-[60ch] mb-10 leading-relaxed">
+          Lecture notes and past questions for Geomatic Engineering, organised by level.
+        </p>
+
         <div className="flex gap-3 mb-12">
           {['materials', 'pastq'].map(t => (
             <button
@@ -84,7 +81,6 @@ export default function LibraryPage() {
           </div>
         )}
       </div>
-      </section>
-    </>
+    </section>
   )
 }

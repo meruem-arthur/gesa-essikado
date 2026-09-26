@@ -1,8 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { getAllEvents, getSiteContent } from '../../lib/queries'
-import { CoordinateTag } from '../../components/Geo'
-import PageHero from '../../components/PageHero'
+import { getAllEvents } from '../../lib/queries'
+import { SectionLabel, CoordinateTag } from '../../components/Geo'
 
 function formatDate(ev) {
   return ev.date?.toDate
@@ -28,12 +27,10 @@ function EventCard({ ev, idx, past }) {
 
 export default function EventsPage() {
   const [events, setEvents] = useState(null)
-  const [content, setContent] = useState(null)
   const [tab, setTab] = useState('upcoming')
 
   useEffect(() => {
     getAllEvents().then(setEvents).catch(() => setEvents([]))
-    getSiteContent().then(setContent).catch(() => setContent(null))
   }, [])
 
   let upcoming = []
@@ -52,15 +49,14 @@ export default function EventsPage() {
   const list = tab === 'upcoming' ? upcoming : past
 
   return (
-    <>
-      <PageHero
-        imageUrl={content?.eventsHeroImageUrl}
-        eyebrow="Calendar"
-        title="Events"
-        subtitle="Everything GESA has planned, and everything we've already pulled off."
-      />
-      <section className="section pt-16">
-        <div className="container-gesa">
+    <section className="section pt-40 md:pt-48">
+      <div className="container-gesa">
+        <SectionLabel className="mb-6">Calendar</SectionLabel>
+        <h1 className="font-head font-extrabold text-[clamp(2rem,5vw,3.5rem)] tracking-tight text-ink mb-6">Events</h1>
+        <p className="text-muted max-w-[60ch] mb-10 leading-relaxed">
+          Everything GESA has planned, and everything we&rsquo;ve already pulled off.
+        </p>
+
         <div className="flex gap-3 mb-10">
           {['upcoming', 'past'].map(t => (
             <button
@@ -89,7 +85,6 @@ export default function EventsPage() {
           </div>
         )}
       </div>
-      </section>
-    </>
+    </section>
   )
 }
