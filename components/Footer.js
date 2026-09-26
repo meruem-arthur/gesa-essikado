@@ -1,30 +1,23 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { getSiteLinks } from '../lib/queries'
 
 export default function Footer() {
   const [links, setLinks] = useState(null)
 
   useEffect(() => {
-    getSiteLinks().then(setLinks).catch(() => setLinks({}))
+    getSiteLinks().then(setLinks).catch(() => setLinks([]))
   }, [])
 
-  const important = [
-    { label: "Dues Payment Portal", url: links?.duesUrl },
-    { label: "Election Portal", url: links?.electionUrl },
-    { label: "Students' Portal", url: links?.studentsPortalUrl || 'https://portal.umat.edu.gh/' },
-    { label: 'UMaT VLE', url: links?.vleUrl || 'https://elearning.umat.edu.gh/' },
-    { label: 'Internship Portal', url: links?.internshipUrl },
-  ].filter(l => l.url)
+  const important = links || []
 
   return (
     <footer className="border-t border-border mt-16">
       <div className="container-gesa py-14 grid gap-10 sm:grid-cols-3">
         <div>
-          <p className="font-head font-bold text-lg mb-3">
-            GE<span className="text-gold2">SA</span>
-          </p>
+          <Image src="/logo.png" alt="GESA" width={48} height={48} className="mb-3" />
           <p className="text-sm text-muted max-w-[26ch]">
             Geomatic Engineering Students&rsquo; Association — UMaT Essikado Campus.
           </p>
@@ -43,7 +36,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-muted">
             {important.length === 0 && <li className="text-dim">Links coming soon</li>}
             {important.map(l => (
-              <li key={l.label}>
+              <li key={l.id}>
                 <a href={l.url} target="_blank" rel="noopener noreferrer" className="hover:text-gold2">
                   {l.label}
                 </a>

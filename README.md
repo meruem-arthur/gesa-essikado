@@ -18,7 +18,7 @@ no separate login — content managed entirely through `admin-gesa-app`.
 | Gallery              | `galleryPhotos` *(new — manage in admin: Site: Gallery)* |
 | Library (materials & past questions) | `learningMaterials`, `pastQuestions` — same data the mobile app uses |
 | About text / tagline / contact info | `siteContent/home` *(new — manage in admin: Site: Content)* |
-| Footer "Important Links" | `siteLinks/links` *(new — manage in admin: Site: Links)* |
+| Footer "Important Links" | `siteLinks` collection — `{ label, url, order }`, any number of them, admin: Site: Links *(new)* |
 
 ## Before deploying: Firestore rules
 

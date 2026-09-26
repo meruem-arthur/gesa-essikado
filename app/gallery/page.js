@@ -10,6 +10,13 @@ export default function GalleryPage() {
     getGalleryPhotos().then(setPhotos).catch(() => setPhotos([]))
   }, [])
 
+  const groups = {}
+  ;(photos || []).forEach(p => {
+    const key = p.caption || 'Gallery'
+    if (!groups[key]) groups[key] = []
+    groups[key].push(p)
+  })
+
   return (
     <section className="section">
       <div className="container-gesa">
@@ -23,10 +30,19 @@ export default function GalleryPage() {
             Photos will appear here once added in the admin dashboard
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {photos.map(p => (
-              <div key={p.id} className="relative aspect-square rounded-xl overflow-hidden bg-card2">
-                <Image src={p.imageUrl} alt={p.caption || 'GESA'} fill className="object-cover" />
+          <div className="space-y-12">
+            {Object.entries(groups).map(([category, items]) => (
+              <div key={category}>
+                <h2 className="font-head font-semibold text-lg mb-4">
+                  {category} <span className="text-dim font-normal text-sm">({items.length})</span>
+                </h2>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {items.map(p => (
+                    <div key={p.id} className="relative aspect-square rounded-xl overflow-hidden bg-card2">
+                      <Image src={p.imageUrl} alt={p.caption || category} fill className="object-cover" />
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
