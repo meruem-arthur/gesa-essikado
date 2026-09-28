@@ -20,6 +20,7 @@ const NAV = [
   { href: '/news', label: 'News' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/library', label: 'Library' },
+  { href: '/talk-to-someone', label: 'Talk to Someone' },
   { href: '/contact', label: 'Contact' },
 ]
 

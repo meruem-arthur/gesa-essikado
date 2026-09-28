@@ -13,6 +13,7 @@ const NAV = [
   { href: '/gallery', label: 'Gallery' },
   { href: '/library', label: 'Library' },
   { href: '/lecturers', label: 'Lecturers' },
+  { href: '/talk-to-someone', label: 'Talk to Someone' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -73,7 +74,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex gap-8 text-[13.5px]">
+          <nav className="hidden lg:flex gap-5 xl:gap-8 text-[13.5px]">
             {NAV.map(n => (
               <Link
                 key={n.href}
