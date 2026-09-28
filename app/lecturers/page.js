@@ -5,6 +5,10 @@ import { getLecturers, getSiteContent } from '../../lib/queries'
 import PageHero from '../../components/PageHero'
 import { CoordinateTag } from '../../components/Geo'
 
+// 'Dean' is the legacy value; the role is now Principal
+const isPrincipal = l => l.pinnedRole === 'Principal' || l.pinnedRole === 'Dean'
+const roleLabel = l => (l.pinnedRole === 'HOD' ? 'HEAD OF DEPARTMENT' : isPrincipal(l) ? 'PRINCIPAL' : l.pinnedRole.toUpperCase())
+
 function Avatar({ lec, size }) {
   return (
     <div className="relative overflow-hidden bg-panel border border-line flex items-center justify-center" style={{ width: size, height: size * 1.25 }}>
@@ -27,7 +31,7 @@ export default function LecturersPage() {
   }, [])
 
   const sorted = (list || []).slice().sort((a, b) => {
-    const rank = l => (l.pinnedRole === 'HOD' ? 0 : l.pinnedRole === 'Dean' ? 1 : 2)
+    const rank = l => (l.pinnedRole === 'HOD' ? 0 : isPrincipal(l) ? 1 : 2)
     return rank(a) - rank(b) || (a.name || '').localeCompare(b.name || '')
   })
   const pinned = sorted.filter(l => l.pinnedRole)
@@ -57,7 +61,7 @@ export default function LecturersPage() {
                     <div key={l.id} className="bg-navy2 p-8 md:p-10 flex gap-6">
                       <Avatar lec={l} size={160} />
                       <div className="min-w-0">
-                        <CoordinateTag className="block mb-3">{l.pinnedRole === 'HOD' ? 'HEAD OF DEPARTMENT' : l.pinnedRole.toUpperCase()}</CoordinateTag>
+                        <CoordinateTag className="block mb-3">{roleLabel(l)}</CoordinateTag>
                         <p className="font-head font-bold text-xl text-ink">{l.title ? `${l.title} ` : ''}{l.name}</p>
                         {l.major && <p className="text-gold text-xs mono-label mt-1">{l.major}</p>}
                         {l.email && (

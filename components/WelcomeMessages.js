@@ -28,7 +28,8 @@ export default function WelcomeMessages() {
           <Person
             person={president}
             fallbackRole="President, GESA — Essikado"
-            message="bio"
+            message="welcomeMessage"
+            fallbackMessage="bio"
             tag="PRESIDENT / 02"
             placeholder="Welcome message from the President will appear here once added in the admin dashboard."
           />
@@ -38,7 +39,7 @@ export default function WelcomeMessages() {
   )
 }
 
-function Person({ person, fallbackRole, message, placeholder, tag }) {
+function Person({ person, fallbackRole, message, fallbackMessage, placeholder, tag }) {
   return (
     <div className="bg-navy2 p-8 md:p-10">
       <div className="flex items-start justify-between mb-8">
@@ -54,7 +55,7 @@ function Person({ person, fallbackRole, message, placeholder, tag }) {
       <p className="font-head font-bold text-xl text-ink">{person?.name || 'Name pending'}</p>
       <p className="text-gold text-xs mono-label mt-1 mb-5">{person?.position || person?.title || fallbackRole}</p>
       <p className="text-sm text-muted leading-relaxed max-w-[52ch]">
-        {person?.[message] || placeholder}
+        {person?.[message] || (fallbackMessage && person?.[fallbackMessage]) || placeholder}
       </p>
     </div>
   )
