@@ -30,18 +30,16 @@ export default function ExecutivesPage() {
               Executives will appear here once added in the admin dashboard
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
               {execs.map((e, idx) => (
-                <div key={e.id} className="bg-navy p-8 hover:bg-panel transition-colors">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="w-20 h-20 rounded-full overflow-hidden bg-panel flex items-center justify-center border border-line">
-                      {e.photoUrl ? (
-                        <Image src={e.photoUrl} alt={e.name} width={80} height={80} className="object-cover object-center w-full h-full" />
-                      ) : (
-                        <span className="text-gold font-head font-bold text-lg">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
-                      )}
-                    </div>
-                    <span className="mono-label text-[10px] text-dim">{String(idx + 1).padStart(2, '0')}</span>
+                <div key={e.id}>
+                  <div className="relative w-full aspect-[4/5] overflow-hidden bg-panel border border-line mb-4 flex items-center justify-center">
+                    {e.photoUrl ? (
+                      <Image src={e.photoUrl} alt={e.name} fill className="object-cover object-portrait" />
+                    ) : (
+                      <span className="text-gold font-head font-bold text-2xl">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
+                    )}
+                    <span className="absolute top-2 right-2 mono-label text-[10px] text-dim bg-navy/70 px-1.5 py-0.5">{String(idx + 1).padStart(2, '0')}</span>
                   </div>
                   <p className="font-head font-bold text-ink">{e.name}</p>
                   <p className="text-gold text-[11px] mono-label mt-1 mb-3">{e.position}</p>
