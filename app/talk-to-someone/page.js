@@ -99,8 +99,7 @@ export default function TalkToSomeonePage() {
               </p>
               <p>
                 You don&rsquo;t have to. GESA has a Welfare Committee, and its chairman is a fellow student who
-                will listen, take you seriously, and help work out what support is possible, including
-                help with dues.
+                will listen, take you seriously, and help work out what support is possible.
               </p>
               <p>
                 Call or send a WhatsApp message, whichever feels easier. This page only gives you their number:
