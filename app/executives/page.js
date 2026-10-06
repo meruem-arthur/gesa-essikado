@@ -1,12 +1,15 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getExecutives, getSiteContent } from '../../lib/queries'
 import PageHero from '../../components/PageHero'
+import Lightbox from '../../components/Lightbox'
 
 export default function ExecutivesPage() {
   const [execs, setExecs] = useState(null)
   const [content, setContent] = useState(null)
+  const [viewing, setViewing] = useState(null)
+  const closeViewer = useCallback(() => setViewing(null), [])
 
   useEffect(() => {
     getExecutives().then(setExecs).catch(() => setExecs([]))
@@ -31,16 +34,22 @@ export default function ExecutivesPage() {
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-              {execs.map((e, idx) => (
+              {execs.map(e => (
                 <div key={e.id}>
-                  <div className="relative w-full aspect-[4/5] overflow-hidden bg-panel border border-line mb-4 flex items-center justify-center">
-                    {e.photoUrl ? (
+                  {e.photoUrl ? (
+                    <button
+                      type="button"
+                      onClick={() => setViewing({ src: e.photoUrl, alt: e.name, caption: `${e.name}${e.position ? ' — ' + e.position : ''}` })}
+                      aria-label={`View photo of ${e.name}`}
+                      className="relative block w-full aspect-[4/5] overflow-hidden bg-panel border border-line mb-4 cursor-zoom-in"
+                    >
                       <Image src={e.photoUrl} alt={e.name} fill className="object-cover object-portrait" />
-                    ) : (
+                    </button>
+                  ) : (
+                    <div className="relative w-full aspect-[4/5] overflow-hidden bg-panel border border-line mb-4 flex items-center justify-center">
                       <span className="text-gold font-head font-bold text-2xl">{(e.name || 'GE').slice(0, 2).toUpperCase()}</span>
-                    )}
-                    <span className="absolute top-2 right-2 mono-label text-[10px] text-dim bg-navy/70 px-1.5 py-0.5">{String(idx + 1).padStart(2, '0')}</span>
-                  </div>
+                    </div>
+                  )}
                   <p className="font-head font-bold text-ink">{e.name}</p>
                   <p className="text-gold text-[11px] mono-label mt-1 mb-3">{e.position}</p>
                   {e.bio && <p className="text-muted text-sm leading-relaxed">{e.bio}</p>}
@@ -50,6 +59,7 @@ export default function ExecutivesPage() {
           )}
         </div>
       </section>
+      <Lightbox zoom images={viewing ? [viewing] : []} index={viewing ? 0 : null} onClose={closeViewer} />
     </>
   )
 }

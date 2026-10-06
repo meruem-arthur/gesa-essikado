@@ -1,11 +1,13 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getGalleryPhotos } from '../../lib/queries'
 import { SectionLabel } from '../../components/Geo'
+import Lightbox from '../../components/Lightbox'
 
 export default function GalleryPage() {
   const [photos, setPhotos] = useState(null)
+  const [active, setActive] = useState(null)
 
   useEffect(() => {
     getGalleryPhotos().then(setPhotos).catch(() => setPhotos([]))
@@ -17,6 +19,11 @@ export default function GalleryPage() {
     if (!groups[key]) groups[key] = []
     groups[key].push(p)
   })
+
+  // Flatten in the same order the grid renders so the "n / total" counter matches
+  const ordered = Object.values(groups).flat()
+  const slides = ordered.map(p => ({ src: p.imageUrl, alt: p.caption || 'Gallery', caption: p.caption }))
+  const closeViewer = useCallback(() => setActive(null), [])
 
   return (
     <section className="section pt-40 md:pt-48">
@@ -41,9 +48,12 @@ export default function GalleryPage() {
                 {/* Asymmetric editorial masonry via CSS columns */}
                 <div className="columns-2 md:columns-3 gap-3 [column-fill:_balance]">
                   {items.map((p, i) => (
-                    <div
+                    <button
+                      type="button"
                       key={p.id}
-                      className="relative mb-3 break-inside-avoid overflow-hidden group bg-panel"
+                      onClick={() => setActive(ordered.indexOf(p))}
+                      aria-label={`View photo ${ordered.indexOf(p) + 1} of ${ordered.length}`}
+                      className="relative block w-full mb-3 break-inside-avoid overflow-hidden group bg-panel cursor-zoom-in"
                       style={{ aspectRatio: i % 5 === 0 ? '3 / 4' : i % 3 === 0 ? '1 / 1' : '4 / 3' }}
                     >
                       <Image
@@ -55,7 +65,7 @@ export default function GalleryPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                         <p className="mono-label text-[10px] text-ink">{p.caption || category}</p>
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -63,6 +73,7 @@ export default function GalleryPage() {
           </div>
         )}
       </div>
+      <Lightbox images={slides} index={active} onChange={setActive} onClose={closeViewer} />
     </section>
   )
 }
