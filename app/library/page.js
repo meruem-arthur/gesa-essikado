@@ -5,6 +5,15 @@ import PageHero from '../../components/PageHero'
 
 const LEVELS = ['100', '200', '300', '400']
 
+// "PDF" / "PPT" / "DOC" from the file extension, so a PDF and a slide deck of the same course are distinguishable.
+function fileTag(m) {
+  const ext = String(m.fileName || m.fileUrl || '').split('?')[0].split('.').pop().toLowerCase()
+  if (ext === 'pdf') return 'PDF'
+  if (ext === 'ppt' || ext === 'pptx') return 'PPT'
+  if (ext === 'doc' || ext === 'docx') return 'DOC'
+  return ''
+}
+
 export default function LibraryPage() {
   const [materials, setMaterials] = useState(null)
   const [pastQ, setPastQ] = useState(null)
@@ -68,7 +77,10 @@ export default function LibraryPage() {
                           className="bg-navy p-5 flex items-center justify-between hover:bg-panel transition-colors"
                         >
                           <div>
-                            <p className="font-semibold text-sm text-goldLight">{m.courseCode}</p>
+                            <p className="font-semibold text-sm text-goldLight">
+                              {m.courseCode}
+                              {fileTag(m) && <span className="mono-label text-[10px] text-dim ml-2">{fileTag(m)}</span>}
+                            </p>
                             <p className="mono-label text-[10px] text-dim mt-1">
                               {m.courseName || m.fileName} · SEM {m.semester}{m.year ? ` · ${m.year}` : ''}
                             </p>
