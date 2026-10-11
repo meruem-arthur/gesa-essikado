@@ -12,6 +12,7 @@ const NAV = [
   { href: '/news', label: 'News' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/library', label: 'Library' },
+  { href: '/business-hub', label: 'Business Hub' },
   { href: '/lecturers', label: 'Lecturers' },
   { href: '/talk-to-someone', label: 'Talk to Someone' },
   { href: '/contact', label: 'Contact' },
@@ -74,7 +75,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex gap-5 xl:gap-8 text-[13.5px]">
+          <nav className="hidden xl:flex gap-5 2xl:gap-8 text-[13.5px]">
             {NAV.map(n => (
               <Link
                 key={n.href}
@@ -90,7 +91,7 @@ export default function Header() {
             type="button"
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink text-glow"
+            className="xl:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] text-ink text-glow"
           >
             <span className="block w-6 h-px bg-current" />
             <span className="block w-6 h-px bg-current" />
@@ -100,7 +101,7 @@ export default function Header() {
 
       {/* Mobile overlay sidebar */}
       {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50 xl:hidden">
           <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
           <aside
             ref={panelRef}
