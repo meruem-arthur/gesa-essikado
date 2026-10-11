@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { getBusiness } from '../../../lib/queries'
-import { toWhatsAppNumber, toTelHref, toMailHref } from '../../../lib/contact'
+import { toWhatsAppNumber, toTelHref, toMailHref, toWebHref } from '../../../lib/contact'
 import BusinessLogo from '../../../components/BusinessLogo'
 
 export default function BusinessPage() {
@@ -64,6 +64,7 @@ export default function BusinessPage() {
   const callNumber = business.phone
   const waNumber = toWhatsAppNumber(business.whatsapp || business.phone)
   const mailHref = toMailHref(business.email)
+  const webHref = toWebHref(business.website)
 
   return (
     <section className="section pt-40 md:pt-48">
@@ -99,6 +100,7 @@ export default function BusinessPage() {
               <div className="space-y-1 text-sm text-muted break-all mb-6">
                 {callNumber && <p>{callNumber}</p>}
                 {business.email && <p>{business.email}</p>}
+                {webHref && <p>{business.website}</p>}
               </div>
               <div className="flex flex-wrap gap-3">
                 {callNumber && <a href={toTelHref(callNumber)} className="btn-gold">Call</a>}
@@ -106,6 +108,9 @@ export default function BusinessPage() {
                   <a href={`https://wa.me/${waNumber}`} target="_blank" rel="noopener noreferrer" className="btn-outline">WhatsApp</a>
                 )}
                 {mailHref && <a href={mailHref} className="btn-outline">Email</a>}
+                {webHref && (
+                  <a href={webHref} target="_blank" rel="noopener noreferrer" className="btn-outline">Visit website</a>
+                )}
               </div>
             </div>
 
