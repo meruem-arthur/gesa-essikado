@@ -76,7 +76,7 @@ export default function BusinessPage() {
             alt=""
             fill
             sizes="320px"
-            className="object-cover scale-150 blur-3xl opacity-40"
+            className="object-cover scale-150 blur-[2px] opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-navy/75 to-navy" />
         </div>
