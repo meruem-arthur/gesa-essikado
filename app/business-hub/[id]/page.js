@@ -67,8 +67,21 @@ export default function BusinessPage() {
   const webHref = toWebHref(business.website)
 
   return (
-    <section className="section pt-40 md:pt-48">
-      <div className="container-gesa">
+    <section className="section pt-40 md:pt-48 relative overflow-hidden">
+      {/* Soft glow: the business's own logo, enlarged and blurred, fading into the page. */}
+      {business.logoUrl && (
+        <div aria-hidden className="absolute inset-x-0 top-0 h-[36rem] overflow-hidden pointer-events-none">
+          <Image
+            src={business.logoUrl}
+            alt=""
+            fill
+            sizes="320px"
+            className="object-cover scale-150 blur-3xl opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-navy/75 to-navy" />
+        </div>
+      )}
+      <div className="container-gesa relative">
         {back}
 
         <div className="flex items-center gap-6 mb-12">
