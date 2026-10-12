@@ -6,11 +6,13 @@ import { useParams } from 'next/navigation'
 import { getBusiness } from '../../../lib/queries'
 import { toWhatsAppNumber, toTelHref, toMailHref, toWebHref } from '../../../lib/contact'
 import BusinessLogo from '../../../components/BusinessLogo'
+import Lightbox from '../../../components/Lightbox'
 
 export default function BusinessPage() {
   const { id } = useParams()
   const [business, setBusiness] = useState(undefined) // undefined = loading, null = not found
   const [shared, setShared] = useState(false)
+  const [activeProduct, setActiveProduct] = useState(null) // index into productImages
 
   useEffect(() => {
     if (!id) return
@@ -66,6 +68,13 @@ export default function BusinessPage() {
   const mailHref = toMailHref(business.email)
   const webHref = toWebHref(business.website)
 
+  // Products are optional: a product is shown if it has a photo or a name; price is optional too.
+  const products = (business.products || []).filter(p => p && (p.name || p.imageUrl))
+  const productImages = products
+    .filter(p => p.imageUrl)
+    .map(p => ({ src: p.imageUrl, alt: p.name || 'Product', caption: [p.name, p.price].filter(Boolean).join(' · ') }))
+  let imgCount = 0
+
   return (
     <section className="section pt-40 md:pt-48 relative overflow-hidden">
       {/* Soft glow: the business's own logo, enlarged and blurred, fading into the page. */}
@@ -104,6 +113,52 @@ export default function BusinessPage() {
                 <p className="mono-label text-[10px] text-dim mb-4">ABOUT THE BUSINESS</p>
                 <p className="text-muted leading-relaxed max-w-[60ch] whitespace-pre-line">{business.description}</p>
               </>
+            )}
+
+            {products.length > 0 && (
+              <div className={business.description ? 'mt-14' : ''}>
+                <p className="mono-label text-[10px] text-dim mb-4">PRODUCTS</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {products.map((p, i) => {
+                    const imgIndex = p.imageUrl ? imgCount++ : -1
+                    const waText = p.name
+                      ? `Hi, I saw ${p.name} on the GESA Business Hub. Is it available?`
+                      : 'Hi, I saw your products on the GESA Business Hub.'
+                    return (
+                      <div key={i} className="card-gesa p-3 flex flex-col">
+                        {p.imageUrl && (
+                          <button
+                            type="button"
+                            onClick={() => setActiveProduct(imgIndex)}
+                            className="relative w-full aspect-square overflow-hidden bg-panel border border-line mb-3 group"
+                            aria-label={`View ${p.name || 'product'} larger`}
+                          >
+                            <Image
+                              src={p.imageUrl}
+                              alt={p.name || `Product ${i + 1}`}
+                              fill
+                              sizes="(min-width: 768px) 20vw, 45vw"
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                          </button>
+                        )}
+                        {p.name && <p className="font-head font-bold text-ink text-sm leading-snug">{p.name}</p>}
+                        {p.price && <p className="text-gold text-sm mt-1">{p.price}</p>}
+                        {waNumber && (
+                          <a
+                            href={`https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="link-underline text-gold text-xs mono-label mt-3 self-start"
+                          >
+                            Ask about this →
+                          </a>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
             )}
           </div>
 
@@ -152,6 +207,7 @@ export default function BusinessPage() {
           </div>
         </div>
       </div>
+      <Lightbox images={productImages} index={activeProduct} onChange={setActiveProduct} onClose={() => setActiveProduct(null)} />
     </section>
   )
 }
