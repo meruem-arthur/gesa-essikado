@@ -101,6 +101,7 @@ export default function Footer() {
           <p className="mono-label text-[10px] text-dim">
             © {new Date().getFullYear()} GESA · ESSIKADO CAMPUS
           </p>
+          <Link href="/privacy" className="mono-label text-[10px] text-dim hover:text-gold transition-colors">PRIVACY POLICY</Link>
           <p className="mono-label text-[10px] text-dim">THE EYE OF THE ENGINEER</p>
         </div>
       </div>
