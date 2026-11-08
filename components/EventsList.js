@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { getEvents } from '../lib/queries'
 import { SectionLabel, CoordinateTag } from './Geo'
+import EventFlyer from './EventFlyer'
 
 export default function EventsList() {
   const [events, setEvents] = useState(null)
@@ -38,6 +39,7 @@ export default function EventsList() {
                   <span className="mono-label text-[11px] text-dim">EVT / {String(idx + 1).padStart(2, '0')}</span>
                   {ev.tag && <span className="mono-label text-[10px] text-gold">{ev.tag}</span>}
                 </div>
+                <EventFlyer src={ev.imageUrl} title={ev.title} />
                 <p className="font-head font-bold text-lg text-ink mb-3 group-hover:text-gold transition-colors">
                   {ev.title}
                 </p>

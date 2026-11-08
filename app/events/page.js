@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { getAllEvents, getSiteContent } from '../../lib/queries'
 import { CoordinateTag } from '../../components/Geo'
 import PageHero from '../../components/PageHero'
+import EventFlyer from '../../components/EventFlyer'
 
 function formatDate(ev) {
   return ev.date?.toDate
@@ -17,6 +18,7 @@ function EventCard({ ev, idx, past }) {
         <span className="mono-label text-[11px] text-dim">EVT / {String(idx + 1).padStart(2, '0')}</span>
         {ev.tag && <span className="mono-label text-[10px] text-gold">{ev.tag}</span>}
       </div>
+      <EventFlyer src={ev.imageUrl} title={ev.title} />
       <p className="font-head font-bold text-lg text-ink mb-3">{ev.title}</p>
       <CoordinateTag className="block mb-3 text-muted">
         {formatDate(ev)}{ev.location ? ` · ${ev.location}` : ''}
