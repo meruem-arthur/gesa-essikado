@@ -32,9 +32,9 @@ export default function EventsList() {
             No upcoming events at this time
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-line">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 items-start">
             {events.map((ev, idx) => (
-              <div key={ev.id} className="bg-navy p-7 hover:bg-panel transition-colors group">
+              <div key={ev.id} className="bg-navy border border-line p-7 hover:bg-panel transition-colors group">
                 <div className="flex items-start justify-between mb-6">
                   <span className="mono-label text-[11px] text-dim">EVT / {String(idx + 1).padStart(2, '0')}</span>
                   {ev.tag && <span className="mono-label text-[10px] text-gold">{ev.tag}</span>}
